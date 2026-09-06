@@ -10,6 +10,10 @@ import { optionalContent } from "@/lib/safe-query";
 import { PRIMARY_DESTINATION } from "@/config/site";
 import { Container } from "@/components/ui/container";
 import { Cta } from "@/components/ui/cta";
+import { UniversityCard } from "@/components/ui/university-card";
+import { CityCard } from "@/components/ui/city-card";
+import { TestimonialCard } from "@/components/ui/testimonial-card";
+import { PathTimeline } from "@/components/ui/path-timeline";
 
 // Next requires route segment config to be a literal it can statically
 // extract, so this cannot reference CONTENT_REVALIDATE_SECONDS directly.
@@ -40,6 +44,112 @@ const WHY_UK = [
   { stat: "2 years", label: "Graduate Route post-study work visa (3 for PhD)" },
   { stat: "4 of 10", label: "Of the world's top ten universities" },
   { stat: "Direct", label: "Teaching-intensive courses with industry links" },
+];
+
+// Mock university data
+const TOP_UNIVERSITIES = [
+  {
+    name: "University of Oxford",
+    city: "Oxford",
+    ranking: 1,
+    tuitionFees: "£25-30k",
+    employability: 96,
+    imageUrl:
+      "https://images.unsplash.com/photo-1605818735494-2abc6d5e2f8b?w=500&h=500&fit=crop",
+  },
+  {
+    name: "University of Cambridge",
+    city: "Cambridge",
+    ranking: 2,
+    tuitionFees: "£25-30k",
+    employability: 95,
+    imageUrl:
+      "https://images.unsplash.com/photo-1523580494863-6f3031224c94?w=500&h=500&fit=crop",
+  },
+  {
+    name: "LSE",
+    city: "London",
+    ranking: 3,
+    tuitionFees: "£28-35k",
+    employability: 97,
+    imageUrl:
+      "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=500&h=500&fit=crop",
+  },
+  {
+    name: "University of Manchester",
+    city: "Manchester",
+    ranking: 6,
+    tuitionFees: "£18-24k",
+    employability: 92,
+    imageUrl:
+      "https://images.unsplash.com/photo-1519452575417-564c1401ecc0?w=500&h=500&fit=crop",
+  },
+];
+
+// Mock UK cities data
+const UK_CITIES = [
+  {
+    name: "London",
+    description: "Vibrant capital with endless opportunities and cultural diversity",
+    universities: 22,
+    imageUrl:
+      "https://images.unsplash.com/photo-1513635269975-59663e0ac1ad?w=600&h=400&fit=crop",
+  },
+  {
+    name: "Manchester",
+    description: "Creative hub known for innovation and world-class research",
+    universities: 5,
+    imageUrl:
+      "https://images.unsplash.com/photo-1603695785203-d87d5b14b47a?w=600&h=400&fit=crop",
+  },
+  {
+    name: "Edinburgh",
+    description: "Historic city blending heritage with cutting-edge research",
+    universities: 4,
+    imageUrl:
+      "https://images.unsplash.com/photo-1535050487db-2b1f38f37aa3?w=600&h=400&fit=crop",
+  },
+  {
+    name: "Birmingham",
+    description: "Second city with strong engineering and business schools",
+    universities: 3,
+    imageUrl:
+      "https://images.unsplash.com/photo-1533900298318-6b8da08a523e?w=600&h=400&fit=crop",
+  },
+];
+
+// Mock testimonials data
+const STUDENT_TESTIMONIALS = [
+  {
+    studentName: "Sarah Chen",
+    university: "University of Cambridge",
+    course: "Computer Science",
+    quote:
+      "Gradmire helped me find the perfect course match before I even thought about universities. The personalized guidance was incredible.",
+    imageUrl:
+      "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=100&h=100&fit=crop",
+    rating: 5,
+  },
+  {
+    studentName: "James Mitchell",
+    university: "LSE",
+    course: "Economics",
+    quote:
+      "The application support and visa guidance saved me months of stress. Highly recommend for any international student.",
+    imageUrl:
+      "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&h=100&fit=crop",
+    rating: 5,
+  },
+  {
+    studentName: "Priya Patel",
+    university: "University of Manchester",
+    course: "Engineering",
+    quote:
+      "Finding the right UK university seemed daunting, but Gradmire made it simple and supportive throughout.",
+    imageUrl:
+      "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=100&h=100&fit=crop",
+    rating: 5,
+  },
 ];
 
 export default async function HomePage() {
@@ -251,6 +361,101 @@ export default async function HomePage() {
                   <p className="text-body text-ink-soft">{step.body}</p>
                 </li>
               ))}
+            </Reveal>
+          </Container>
+        </section>
+
+        {/* ---------- Top Universities ---------- */}
+        <section className="gutter py-[70px]">
+          <Container>
+            <Reveal group className="mb-10">
+              <span className="eyebrow">Featured universities</span>
+              <h2 className="mt-2.5 max-w-[20ch] text-[clamp(26px,3vw,36px)] font-semibold">
+                Top-ranked options
+              </h2>
+            </Reveal>
+
+            <Reveal group step={50} className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+              {TOP_UNIVERSITIES.map((uni) => (
+                <UniversityCard
+                  key={uni.name}
+                  name={uni.name}
+                  city={uni.city}
+                  ranking={uni.ranking}
+                  tuitionFees={uni.tuitionFees}
+                  employability={uni.employability}
+                  imageUrl={uni.imageUrl}
+                />
+              ))}
+            </Reveal>
+          </Container>
+        </section>
+
+        {/* ---------- UK Cities ---------- */}
+        <section className="gutter py-[70px] bg-paper-dim">
+          <Container>
+            <Reveal group className="mb-10">
+              <span className="eyebrow">Study destinations</span>
+              <h2 className="mt-2.5 max-w-[20ch] text-[clamp(26px,3vw,36px)] font-semibold">
+                Explore UK cities
+              </h2>
+            </Reveal>
+
+            <Reveal group step={50} className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+              {UK_CITIES.map((city) => (
+                <CityCard
+                  key={city.name}
+                  name={city.name}
+                  description={city.description}
+                  universities={city.universities}
+                  imageUrl={city.imageUrl}
+                />
+              ))}
+            </Reveal>
+          </Container>
+        </section>
+
+        {/* ---------- Student Success Stories ---------- */}
+        <section className="gutter py-[70px]">
+          <Container>
+            <Reveal group className="mb-10">
+              <span className="eyebrow">Success stories</span>
+              <h2 className="mt-2.5 max-w-[20ch] text-[clamp(26px,3vw,36px)] font-semibold">
+                Student testimonials
+              </h2>
+            </Reveal>
+
+            <Reveal group step={50} className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+              {STUDENT_TESTIMONIALS.map((testimonial) => (
+                <TestimonialCard
+                  key={testimonial.studentName}
+                  studentName={testimonial.studentName}
+                  university={testimonial.university}
+                  course={testimonial.course}
+                  quote={testimonial.quote}
+                  imageUrl={testimonial.imageUrl}
+                  rating={testimonial.rating}
+                />
+              ))}
+            </Reveal>
+          </Container>
+        </section>
+
+        {/* ---------- Find Your Path Timeline ---------- */}
+        <section className="gutter py-[70px] bg-gradient-to-b from-ink/5 to-coral-dim/20">
+          <Container>
+            <Reveal group className="mb-12">
+              <span className="eyebrow justify-center">Your journey</span>
+              <h2 className="mx-auto mt-2.5 max-w-[20ch] text-center text-[clamp(26px,3vw,36px)] font-semibold">
+                Find your path to UK education
+              </h2>
+              <p className="mx-auto mt-4 max-w-[50ch] text-center text-ink-soft">
+                Seven simple steps from your interest to your dream university
+              </p>
+            </Reveal>
+
+            <Reveal className="mt-16">
+              <PathTimeline />
             </Reveal>
           </Container>
         </section>

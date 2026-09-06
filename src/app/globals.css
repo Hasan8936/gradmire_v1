@@ -26,6 +26,10 @@
     --coral-text: 206 70% 42%;
     --coral-dim: 206 50% 90%;
 
+    /* Warm Cream — supporting accent */
+    --cream: 37 100% 90%;
+    --cream-dark: 37 80% 76%;
+
     /* Supporting colors */
     --gold: 42 63% 48%;
     --brand-green: 160 61% 27%;
