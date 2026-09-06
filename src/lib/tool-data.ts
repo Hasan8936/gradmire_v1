@@ -7,6 +7,7 @@ import { CONTENT_TAG } from "@/lib/queries";
 import { formatMoneyRange } from "@/lib/money";
 import { CONTENT_REVALIDATE_SECONDS } from "@/config/site";
 import type { CourseHub } from "@/data/courses";
+import { courseHubs as staticCourseHubs, getFullCourseHubs } from "@/data/courses";
 
 /**
  * Adapts database rows into the CourseHub shape the tools were written
@@ -16,6 +17,8 @@ import type { CourseHub } from "@/data/courses";
  *
  * Both the formatted range (for display) and the raw min/max (for the ROI
  * calculator's arithmetic) are included — see the CourseHub numeric fields.
+ *
+ * Falls back to static courseHubs if database is empty (dev/early stage).
  */
 export const getHubsForTools = cache(
   unstable_cache(
@@ -29,6 +32,11 @@ export const getHubsForTools = cache(
           deadlines: { orderBy: [asc(schema.deadlines.sortOrder)] },
         },
       });
+
+      // Fallback to static data if database is empty
+      if (rows.length === 0) {
+        return getFullCourseHubs();
+      }
 
       return rows.map((h) => ({
         countrySlug: h.destination.slug,
@@ -69,6 +77,9 @@ export const getHubsForTools = cache(
         medianSalaryRange:
           formatMoneyRange({ min: h.salaryMin, max: h.salaryMax, currency: h.currency }) ??
           undefined,
+        salaryProgressionOneYear: undefined,
+        salaryProgressionThreeYear: undefined,
+        salaryProgressionFiveYear: undefined,
         topSectors: h.topSectors ?? [],
         commonEmployers: h.commonEmployers ?? [],
         visaNotes: h.visaNotes ?? [],

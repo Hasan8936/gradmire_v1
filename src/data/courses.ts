@@ -32,6 +32,9 @@ export type CourseHub = {
   salaryMin?: number;
   salaryMax?: number;
   medianSalaryRange?: string;
+  salaryProgressionOneYear?: string;
+  salaryProgressionThreeYear?: string;
+  salaryProgressionFiveYear?: string;
   topSectors?: string[];
   commonEmployers?: string[];
   visaNotes?: string[];
@@ -86,8 +89,13 @@ export const courseHubs: CourseHub[] = [
         subjectRank: "Top 15",
       },
     ],
+    tuitionMin: 22000,
+    tuitionMax: 95000,
     tuitionRange: "£22,000–£95,000/year",
+    livingCostMin: 1100,
+    livingCostMax: 1500,
     livingCosts: "£1,100–£1,500/month",
+    currency: "GBP",
     entryRequirements: [
       "2:1 UK equivalent (60%+ Indian universities, varies by institution)",
       "IELTS 6.5–7.5",
@@ -106,7 +114,12 @@ export const courseHubs: CourseHub[] = [
     ],
     deadlineWarning:
       "Oxford/Cambridge MBA and highly competitive MSc may close by January.",
+    salaryMin: 38000,
+    salaryMax: 65000,
     medianSalaryRange: "£38,000–£65,000",
+    salaryProgressionOneYear: "£42,000–£75,000",
+    salaryProgressionThreeYear: "£52,000–£95,000",
+    salaryProgressionFiveYear: "£65,000–£130,000",
     topSectors: [
       "Consulting",
       "Investment Banking",
@@ -155,8 +168,13 @@ export const courseHubs: CourseHub[] = [
         notableFor: "Data Science, CS",
       },
     ],
+    tuitionMin: 24000,
+    tuitionMax: 45000,
     tuitionRange: "£24,000–£45,000/year",
+    livingCostMin: 1000,
+    livingCostMax: 1600,
     livingCosts: "£1,000–£1,600/month",
+    currency: "GBP",
     entryRequirements: [
       "2:1 equivalent in relevant discipline",
       "Conversion courses often accept strong quantitative degrees",
@@ -171,7 +189,12 @@ export const courseHubs: CourseHub[] = [
     ],
     deadlineWarning:
       "Cambridge/Oxford/Imperial AI/ML often fill by January–February.",
+    salaryMin: 35000,
+    salaryMax: 55000,
     medianSalaryRange: "£35,000–£55,000",
+    salaryProgressionOneYear: "£42,000–£68,000",
+    salaryProgressionThreeYear: "£55,000–£90,000",
+    salaryProgressionFiveYear: "£70,000–£130,000",
     topSectors: ["Tech", "Fintech", "Consulting", "AI Startups"],
     commonEmployers: [
       "Google",
@@ -223,8 +246,13 @@ export const courseHubs: CourseHub[] = [
         notableFor: "Renewable Energy, Naval Architecture",
       },
     ],
+    tuitionMin: 24000,
+    tuitionMax: 38000,
     tuitionRange: "£24,000–£38,000/year",
+    livingCostMin: 1000,
+    livingCostMax: 1400,
     livingCosts: "£1,000–£1,400/month",
+    currency: "GBP",
     entryRequirements: [
       "2:1 in relevant engineering discipline",
       "IELTS 6.5",
@@ -238,7 +266,12 @@ export const courseHubs: CourseHub[] = [
       },
     ],
     deadlineWarning: undefined,
+    salaryMin: 32000,
+    salaryMax: 48000,
     medianSalaryRange: "£32,000–£48,000",
+    salaryProgressionOneYear: "£36,000–£56,000",
+    salaryProgressionThreeYear: "£45,000–£72,000",
+    salaryProgressionFiveYear: "£58,000–£95,000",
     topSectors: ["Infrastructure", "Automotive", "Aerospace", "Energy"],
     commonEmployers: [
       "Rolls-Royce",
@@ -265,6 +298,14 @@ export const courseHubs: CourseHub[] = [
     isStub: true,
     oneLiner:
       "World-renowned medical schools, NHS clinical placements, and globally recognized qualifications.",
+    salaryMin: 30000,
+    salaryMax: 52000,
+    medianSalaryRange: "£30,000–£52,000",
+    salaryProgressionOneYear: "£32,000–£58,000",
+    salaryProgressionThreeYear: "£38,000–£72,000",
+    salaryProgressionFiveYear: "£45,000–£90,000",
+    topSectors: ["NHS", "Private Healthcare", "Public Health", "Medical Research"],
+    commonEmployers: ["NHS Trusts", "Roche", "AstraZeneca", "GSK"],
   },
   {
     countrySlug: "uk",
@@ -274,6 +315,14 @@ export const courseHubs: CourseHub[] = [
     isStub: true,
     oneLiner:
       "Study in one of the world's most influential legal systems, with access to top law firms and the Inns of Court.",
+    salaryMin: 40000,
+    salaryMax: 70000,
+    medianSalaryRange: "£40,000–£70,000",
+    salaryProgressionOneYear: "£48,000–£85,000",
+    salaryProgressionThreeYear: "£65,000–£120,000",
+    salaryProgressionFiveYear: "£85,000–£180,000",
+    topSectors: ["Law Firms", "In-House Counsel", "Public Sector", "Tech"],
+    commonEmployers: ["Slaughter and May", "Freshfields", "Linklaters", "Allen & Overy"],
   },
   {
     countrySlug: "uk",
@@ -283,6 +332,14 @@ export const courseHubs: CourseHub[] = [
     isStub: true,
     oneLiner:
       "From the Bartlett to the AA, the UK is home to some of the world's most prestigious architecture and design schools.",
+    salaryMin: 28000,
+    salaryMax: 45000,
+    medianSalaryRange: "£28,000–£45,000",
+    salaryProgressionOneYear: "£32,000–£52,000",
+    salaryProgressionThreeYear: "£42,000–£68,000",
+    salaryProgressionFiveYear: "£55,000–£95,000",
+    topSectors: ["Architecture", "Urban Planning", "Design Consultancies", "Tech"],
+    commonEmployers: ["Zaha Hadid Architects", "Foster + Partners", "Pentagram", "Studiolight"],
   },
   {
     countrySlug: "uk",
@@ -292,6 +349,14 @@ export const courseHubs: CourseHub[] = [
     isStub: true,
     oneLiner:
       "Strong quantitative training with pathways into finance, policy, and consulting at top departments like LSE and Warwick.",
+    salaryMin: 38000,
+    salaryMax: 62000,
+    medianSalaryRange: "£38,000–£62,000",
+    salaryProgressionOneYear: "£44,000–£75,000",
+    salaryProgressionThreeYear: "£56,000–£100,000",
+    salaryProgressionFiveYear: "£72,000–£140,000",
+    topSectors: ["Finance", "Consulting", "Public Sector", "Central Banks"],
+    commonEmployers: ["Bank of England", "IMF", "World Bank", "McKinsey", "Goldman Sachs"],
   },
   {
     countrySlug: "uk",
@@ -301,6 +366,14 @@ export const courseHubs: CourseHub[] = [
     isStub: true,
     oneLiner:
       "BPS-accredited programmes with research-intensive training and clinical placement opportunities.",
+    salaryMin: 26000,
+    salaryMax: 42000,
+    medianSalaryRange: "£26,000–£42,000",
+    salaryProgressionOneYear: "£29,000–£48,000",
+    salaryProgressionThreeYear: "£35,000–£60,000",
+    salaryProgressionFiveYear: "£45,000–£80,000",
+    topSectors: ["Mental Health Services", "Research", "Corporate Wellness", "Tech"],
+    commonEmployers: ["NHS Mental Health Trusts", "University Departments", "Google", "Facebook"],
   },
 ];
 
