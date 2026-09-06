@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Fraunces, Inter, IBM_Plex_Mono } from "next/font/google";
 import "./globals.css";
+import { SITE_URL } from "@/config/site";
 import { cn } from "@/lib/utils";
 
 /** Headlines only — a diploma register without tipping into ceremony. */
@@ -26,10 +27,8 @@ const mono = IBM_Plex_Mono({
   display: "swap",
 });
 
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "https://gradmire.com";
-
 export const metadata: Metadata = {
-  metadataBase: new URL(siteUrl),
+  metadataBase: new URL(SITE_URL),
   title: {
     default: "Gradmire — Find your course. Then find the UK around it.",
     template: "%s | Gradmire",
@@ -47,7 +46,7 @@ export const metadata: Metadata = {
   openGraph: {
     type: "website",
     siteName: "Gradmire",
-    url: siteUrl,
+    url: SITE_URL,
     title: "Gradmire — Find your course. Then find the UK around it.",
     description:
       "Study abroad organized by subject, not by country. Course-first shortlists for UK master's degrees.",
@@ -58,8 +57,8 @@ export const metadata: Metadata = {
 
 export const viewport = {
   themeColor: [
-    { media: "(prefers-color-scheme: light)", color: "#FBFAF6" },
-    { media: "(prefers-color-scheme: dark)", color: "#10142E" },
+    { media: "(prefers-color-scheme: light)", color: "#F5F8FA" },
+    { media: "(prefers-color-scheme: dark)", color: "#0C151D" },
   ],
 };
 
@@ -67,11 +66,19 @@ export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html
-      lang="en"
-      className={cn("scroll-smooth", display.variable, body.variable, mono.variable)}
-    >
+    <html lang="en" className={cn(display.variable, body.variable, mono.variable)}>
       <body className="min-h-screen font-sans">
+        {/*
+          Marks the document as scripted before the rest of the body parses,
+          which is what lets globals.css hide the entrance-animated sections
+          without blanking the page for a visitor whose JavaScript never runs.
+          Inline and first, or the sections flash at full opacity.
+        */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html: 'document.documentElement.classList.add("js")',
+          }}
+        />
         <a
           href="#main"
           className="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-[100] focus:rounded-pill focus:bg-ink focus:px-5 focus:py-2.5 focus:text-sm focus:font-semibold focus:text-paper"

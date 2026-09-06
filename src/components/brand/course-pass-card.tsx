@@ -30,7 +30,7 @@ export function CoursePassCard({
       <div className="p-5 pb-4">
         <span
           className={cn(
-            "mb-2.5 block font-mono text-[11px] uppercase tracking-[0.1em]",
+            "mb-2.5 block font-mono text-mini uppercase tracking-[0.1em]",
             isStub ? "text-ink-soft" : "text-coral-text",
           )}
         >
@@ -46,10 +46,12 @@ export function CoursePassCard({
 
       <div className="mt-auto flex items-center justify-between p-5 pt-4">
         <div className="font-mono">
-          <b className="block text-[15px] font-semibold text-ink">
-            {isStub ? "—" : `${universityCount} unis`}
+          <b className="block text-lede font-semibold text-ink">
+            {isStub
+              ? "—"
+              : `${universityCount} ${universityCount === 1 ? "university" : "universities"}`}
           </b>
-          <span className="text-[10px] uppercase tracking-[0.08em] text-ink-soft">
+          <span className="text-micro uppercase tracking-[0.08em] text-ink-soft">
             {isStub ? "Guide soon" : "Ranked hub"}
           </span>
         </div>
@@ -79,7 +81,8 @@ export function CoursePassCard({
       href={href}
       className={cn(
         shell,
-        "transition-transform duration-200 hover:-translate-y-1 hover:shadow-2xl",
+        // Both properties, or the shadow snaps while the lift eases.
+        "transition-[transform,box-shadow] duration-200 ease-out hover:-translate-y-1 hover:shadow-2xl",
       )}
     >
       {inner}
