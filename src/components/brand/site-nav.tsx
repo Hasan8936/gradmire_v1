@@ -2,7 +2,6 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import Image from "next/image";
 import {
   Menu,
   X,
@@ -27,6 +26,7 @@ import type { Navigation } from "@/lib/nav";
 import { cn } from "@/lib/utils";
 import { Container } from "@/components/ui/container";
 import { Cta } from "@/components/ui/cta";
+import { Logo } from "@/components/brand/logo";
 
 /**
  * The interactive half of the header. Nav content arrives as props from the
@@ -154,15 +154,8 @@ export function SiteNav({
   return (
     <header className="sticky top-0 z-50 bg-paper/90 backdrop-blur-md after:absolute after:inset-x-0 after:top-full after:h-3 after:bg-gradient-to-b after:from-ink/[0.06] after:to-transparent after:content-['']">
       <Container className="gutter mx-auto flex items-center justify-between gap-3 py-4">
-        <Link href="/" className="flex shrink-0 items-center" aria-label="Gradmire home">
-          <Image
-            src="/brand/gradmire-logo.png"
-            alt="Gradmire"
-            width={900}
-            height={243}
-            priority
-            className="h-[26px] w-auto"
-          />
+        <Link href="/" className="flex shrink-0 items-center transition-opacity hover:opacity-75" aria-label="Gradmire home">
+          <Logo variant="navy" size="md" className="h-10 w-auto" />
         </Link>
 
         <nav aria-label="Main" className="hidden items-center gap-[6px] lg:flex">
