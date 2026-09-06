@@ -28,6 +28,46 @@ const HERO_STATS: HeroStat[] = [
   { icon: "trophy", value: "4 of 10", label: "World's top ten universities" },
 ];
 
+// Mock destinations data for all study destinations
+const DESTINATIONS_DATA = [
+  {
+    id: "1",
+    name: "United Kingdom",
+    slug: "uk",
+    flagEmoji: "🇬🇧",
+    stampLabel: "UK",
+    tagline: "1-year master's degrees. Live now — 8 subject hubs.",
+    status: "live",
+  },
+  {
+    id: "2",
+    name: "United States",
+    slug: "us",
+    flagEmoji: "🇺🇸",
+    stampLabel: "US",
+    tagline: "World's largest higher education system",
+    status: "coming-soon",
+  },
+  {
+    id: "3",
+    name: "Canada",
+    slug: "ca",
+    flagEmoji: "🇨🇦",
+    stampLabel: "CA",
+    tagline: "Pathway to permanent residency",
+    status: "coming-soon",
+  },
+  {
+    id: "4",
+    name: "Australia",
+    slug: "au",
+    flagEmoji: "🇦🇺",
+    stampLabel: "AU",
+    tagline: "Top 5 international student destination",
+    status: "coming-soon",
+  },
+];
+
 // Next requires route segment config to be a literal it can statically
 // extract, so this cannot reference CONTENT_REVALIDATE_SECONDS directly.
 // Keep it equal to that constant in @/config/site.
@@ -131,6 +171,91 @@ const UK_CITIES = [
   },
 ];
 
+// Mock course hubs data
+const COURSE_HUBS = [
+  {
+    id: "1",
+    code: "BUS·MGT",
+    name: "Business & Management",
+    oneLiner: "From MBAs to specialist Master's in Finance and Marketing, the UK offers some of the most respected business education in the world — often completed in a single year.",
+    universityCount: 6,
+    status: "live",
+    slug: "business-management",
+  },
+  {
+    id: "2",
+    code: "CS·AI·DS",
+    name: "Computer Science, AI & Data Science",
+    oneLiner: "Home to some of Europe's strongest CS research departments and a fast-growing tech job market, especially in London, Cambridge, and Edinburgh.",
+    universityCount: 6,
+    status: "live",
+    slug: "computer-science-ai-data-science",
+  },
+  {
+    id: "3",
+    code: "ENG·TEC",
+    name: "Engineering & Technology",
+    oneLiner: "Strong in mechanical, civil, electrical, and increasingly renewable/clean energy engineering, with close ties to UK industry and infrastructure projects.",
+    universityCount: 6,
+    status: "live",
+    slug: "engineering-technology",
+  },
+  {
+    id: "4",
+    code: "MED·HLT",
+    name: "Medicine, Nursing & Health Sciences",
+    oneLiner: "World-renowned medical schools, NHS clinical placements, and globally recognized qualifications.",
+    universityCount: 5,
+    status: "live",
+    slug: "medicine-nursing-health",
+  },
+  {
+    id: "5",
+    code: "LAW",
+    name: "Law",
+    oneLiner: "Study in one of the world's most influential legal systems, with access to top law firms and the Inns of Court.",
+    universityCount: 5,
+    status: "stub",
+    slug: "law",
+  },
+  {
+    id: "6",
+    code: "ARC·DES",
+    name: "Architecture & Design",
+    oneLiner: "From the Bartlett to the AA, the UK is home to some of the world's most prestigious architecture and design schools.",
+    universityCount: 4,
+    status: "stub",
+    slug: "architecture-design",
+  },
+  {
+    id: "7",
+    code: "ECON",
+    name: "Economics",
+    oneLiner: "Strong quantitative training with pathways into finance, policy, and consulting at top departments like LSE and Warwick.",
+    universityCount: 4,
+    status: "stub",
+    slug: "economics",
+  },
+  {
+    id: "8",
+    code: "PSYC",
+    name: "Psychology",
+    oneLiner: "BPS-accredited programmes with research-intensive training and clinical placement opportunities.",
+    universityCount: 4,
+    status: "stub",
+    slug: "psychology",
+  },
+  {
+    id: "9",
+    code: "STEM",
+    name: "Other STEM",
+    oneLiner: "From physics and chemistry to biology and environmental science, explore diverse STEM programmes across the UK.",
+    universityCount: 5,
+    status: "stub",
+    slug: "other-stem",
+  },
+];
+
 // Mock testimonials data
 const STUDENT_TESTIMONIALS = [
   {
@@ -179,7 +304,9 @@ export default async function HomePage() {
     optionalContent("homepage course hubs", () => getCourseHubs(PRIMARY_DESTINATION), []),
   ]);
 
-  const liveHubCount = hubs.filter((h) => h.status === "live").length;
+  // Use mock data as fallback if database returns empty
+  const finalDestinations = destinations.length > 0 ? destinations : DESTINATIONS_DATA;
+  const finalHubs = hubs.length > 0 ? hubs : COURSE_HUBS;
 
   return (
     <>
@@ -223,9 +350,9 @@ export default async function HomePage() {
                     Take the quiz
                   </Cta>
                 </div>
-                {hubs.length > 0 && (
+                {finalHubs.length > 0 && (
                   <p className="text-body text-ink-soft">
-                    {liveHubCount} UK subject hubs live · {hubs.length - liveHubCount} in
+                    {finalHubs.filter((h) => h.status === "live").length} UK subject hubs live · {finalHubs.filter((h) => h.status !== "live").length} in
                     research
                   </p>
                 )}
@@ -275,7 +402,6 @@ export default async function HomePage() {
         </section>
 
         {/* ---------- Destinations ---------- */}
-        {destinations.length > 0 && (
         <section id="destinations" className="gutter py-[70px]">
           <Container>
             <Reveal group className="mb-10 flex flex-wrap items-end justify-between gap-6">
@@ -292,7 +418,7 @@ export default async function HomePage() {
             </Reveal>
 
             <Reveal group className="grid gap-4.5 md:grid-cols-2 lg:grid-cols-[1.3fr_repeat(3,1fr)]">
-              {destinations.map((d) =>
+              {finalDestinations.map((d) =>
                 d.status === "live" ? (
                   <Link
                     key={d.id}
@@ -310,7 +436,7 @@ export default async function HomePage() {
                       </div>
                       <h3 className="mb-1.5 text-[23px] font-semibold">{d.name}</h3>
                       <p className="max-w-[26ch] text-body opacity-85">
-                        {d.tagline}. Live now — {hubs.length} subject hubs.
+                        {d.tagline}
                       </p>
                     </div>
                     <span className="mt-4 inline-flex items-center gap-2 text-body font-semibold">
@@ -346,10 +472,8 @@ export default async function HomePage() {
             </Reveal>
           </Container>
         </section>
-        )}
 
         {/* ---------- Courses ---------- */}
-        {hubs.length > 0 && (
         <section
           id="courses"
           className="bg-ink gutter py-[70px] text-paper [--perf-bg:var(--ink)]"
@@ -370,7 +494,7 @@ export default async function HomePage() {
             </Reveal>
 
             <Reveal group step={55} className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-              {hubs.map((hub) => (
+              {finalHubs.map((hub) => (
                 <CoursePassCard
                   key={hub.id}
                   code={hub.code}
@@ -384,7 +508,6 @@ export default async function HomePage() {
             </Reveal>
           </Container>
         </section>
-        )}
 
         {/* ---------- How it works ---------- */}
         <section className="gutter py-[74px]">
