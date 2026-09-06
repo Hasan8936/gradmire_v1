@@ -1,4 +1,3 @@
-import Image from "next/image";
 import Link from "next/link";
 
 interface LogoProps {
@@ -8,9 +7,9 @@ interface LogoProps {
 }
 
 const sizeMap = {
-  sm: { width: 32, height: 32 },
-  md: { width: 48, height: 48 },
-  lg: { width: 64, height: 64 },
+  sm: { width: "32px", height: "auto" },
+  md: { width: "120px", height: "auto" },
+  lg: { width: "160px", height: "auto" },
 };
 
 export function Logo({
@@ -18,23 +17,60 @@ export function Logo({
   size = "md",
   className = "",
 }: LogoProps) {
-  const { width, height } = sizeMap[size];
-
-  const logoSource = {
-    color: "/gradmire-logo.png",
-    white: "/gradmire-logo-white.png",
-    navy: "/gradmire-logo.png",
-  }[variant];
+  const { width } = sizeMap[size];
 
   return (
-    <Image
-      src={logoSource}
-      alt="Gradmire"
+    <svg
       width={width}
-      height={height}
+      height="auto"
+      viewBox="0 0 300 120"
+      xmlns="http://www.w3.org/2000/svg"
+      preserveAspectRatio="xMidYMid meet"
       className={`transition-all duration-200 ${className}`}
-      priority
-    />
+      aria-label="Gradmire"
+    >
+      <defs>
+        <style>{`
+          .gradmire-text {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            font-size: 56px;
+            font-weight: 700;
+            fill: ${variant === 'white' ? '#FFFFFF' : '#11446A'};
+            letter-spacing: -1px;
+          }
+        `}</style>
+      </defs>
+
+      {/* Plane icon */}
+      <g transform="translate(10, 15)">
+        <path
+          d="M 35 5 L 50 35 L 40 40 L 25 25 L 15 45 L 10 43 L 20 20 L 5 20 Z"
+          fill="none"
+          stroke={variant === 'white' ? '#FFFFFF' : '#11446A'}
+          strokeWidth="2.5"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+      </g>
+
+      {/* Gradmire text */}
+      <text x="70" y="65" className="gradmire-text">
+        Gradmire
+      </text>
+
+      {/* Graduation cap icon */}
+      <g transform="translate(270, 22)">
+        <rect x="0" y="0" width="28" height="4" rx="1" fill={variant === 'white' ? '#FFFFFF' : '#11446A'} />
+        <path
+          d="M 2 4 L 14 -8 L 26 4"
+          fill={variant === 'white' ? '#FFFFFF' : '#11446A'}
+          stroke={variant === 'white' ? '#FFFFFF' : '#11446A'}
+          strokeWidth="2"
+          strokeLinejoin="round"
+        />
+        <line x1="14" y1="0" x2="14" y2="12" stroke={variant === 'white' ? '#FFFFFF' : '#11446A'} strokeWidth="2" />
+      </g>
+    </svg>
   );
 }
 
