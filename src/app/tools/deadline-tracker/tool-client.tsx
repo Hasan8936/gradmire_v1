@@ -18,6 +18,8 @@ import { getCountry } from "@/data/countries";
 import type { CourseHub } from "@/data/courses";
 
 const STORAGE_KEY = "gradmire-deadline-tracker";
+const EMAIL_REMINDER_KEY = "gradmire-email-reminders-enabled";
+const EMAIL_ADDRESS_KEY = "gradmire-user-email";
 
 type DeadlineItem = {
   courseSlug: string;
@@ -51,6 +53,9 @@ export default function DeadlineTrackerPage({ hubs }: { hubs: CourseHub[] }) {
   const allHubs = hubs;
   const [trackedSlugs, setTrackedSlugs] = useState<string[]>([]);
   const [loaded, setLoaded] = useState(false);
+  const [emailRemindersEnabled, setEmailRemindersEnabled] = useState(false);
+  const [userEmail, setUserEmail] = useState("");
+  const [showEmailForm, setShowEmailForm] = useState(false);
 
   // Load from localStorage
   useEffect(() => {
@@ -59,6 +64,10 @@ export default function DeadlineTrackerPage({ hubs }: { hubs: CourseHub[] }) {
       if (stored) {
         setTrackedSlugs(JSON.parse(stored));
       }
+      const remindersEnabled = localStorage.getItem(EMAIL_REMINDER_KEY) === "true";
+      setEmailRemindersEnabled(remindersEnabled);
+      const email = localStorage.getItem(EMAIL_ADDRESS_KEY) || "";
+      setUserEmail(email);
     } catch {}
     setLoaded(true);
   }, []);
@@ -69,6 +78,16 @@ export default function DeadlineTrackerPage({ hubs }: { hubs: CourseHub[] }) {
       localStorage.setItem(STORAGE_KEY, JSON.stringify(trackedSlugs));
     }
   }, [trackedSlugs, loaded]);
+
+  // Save email reminders preference
+  useEffect(() => {
+    if (loaded) {
+      localStorage.setItem(EMAIL_REMINDER_KEY, emailRemindersEnabled.toString());
+      if (emailRemindersEnabled && userEmail) {
+        localStorage.setItem(EMAIL_ADDRESS_KEY, userEmail);
+      }
+    }
+  }, [emailRemindersEnabled, userEmail, loaded]);
 
   const toggleCourse = (slug: string) => {
     setTrackedSlugs((prev) =>
@@ -101,22 +120,22 @@ export default function DeadlineTrackerPage({ hubs }: { hubs: CourseHub[] }) {
   }, [deadlines]);
 
   return (
-    <div className="mx-auto max-w-3xl gutter py-16">
-      <div className="text-center mb-10">
+    <div className="mx-auto max-w-3xl gutter py-8 sm:py-16">
+      <div className="text-center mb-8 sm:mb-10">
         <Badge variant="outline" className="mb-4">
           <CalendarClock className="mr-1.5 h-3.5 w-3.5" />
           Deadline Tracker
         </Badge>
-        <h1 className="text-3xl font-bold">Track Your Deadlines</h1>
-        <p className="mt-2 text-muted-foreground">
+        <h1 className="text-2xl sm:text-3xl font-bold">Track Your Deadlines</h1>
+        <p className="mt-2 text-sm sm:text-base text-muted-foreground">
           Select courses you&apos;re interested in and we&apos;ll show all
           relevant deadlines. Your selections are saved automatically.
         </p>
       </div>
 
       {/* Course Picker */}
-      <Card className="mb-8">
-        <CardContent className="p-6">
+      <Card className="mb-6 sm:mb-8">
+        <CardContent className="p-4 sm:p-6">
           <Label className="text-sm font-medium">
             Courses you&apos;re tracking ({trackedSlugs.length})
           </Label>
@@ -154,9 +173,58 @@ export default function DeadlineTrackerPage({ hubs }: { hubs: CourseHub[] }) {
         </CardContent>
       </Card>
 
+      {/* Email Reminders */}
+      {trackedCourses.length > 0 && (
+        <Card className="mb-6 sm:mb-8 border-primary/20 bg-primary/5">
+          <CardContent className="p-4 sm:p-6">
+            <div className="flex items-start gap-3">
+              <Checkbox
+                id="email-reminders"
+                checked={emailRemindersEnabled}
+                onCheckedChange={(checked) => {
+                  setEmailRemindersEnabled(checked === true);
+                  if (checked === true) setShowEmailForm(true);
+                }}
+              />
+              <div className="flex-1 min-w-0">
+                <Label
+                  htmlFor="email-reminders"
+                  className="font-medium cursor-pointer text-sm sm:text-base"
+                >
+                  Email me deadline reminders
+                </Label>
+                <p className="text-xs sm:text-sm text-muted-foreground mt-1">
+                  Receive email notifications 2 weeks before application deadlines
+                  {emailRemindersEnabled && userEmail && ` to ${userEmail}`}
+                </p>
+                {emailRemindersEnabled && (showEmailForm || !userEmail) && (
+                  <div className="mt-3 flex gap-2">
+                    <input
+                      type="email"
+                      placeholder="your@email.com"
+                      value={userEmail}
+                      onChange={(e) => setUserEmail(e.target.value)}
+                      className="flex-1 px-3 py-2 text-sm border border-border rounded-md bg-background"
+                    />
+                    {userEmail && (
+                      <button
+                        onClick={() => setShowEmailForm(false)}
+                        className="px-3 py-2 text-sm font-medium bg-primary text-primary-foreground rounded-md hover:bg-primary/90"
+                      >
+                        Save
+                      </button>
+                    )}
+                  </div>
+                )}
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+      )}
+
       {/* Deadline List */}
       {trackedCourses.length > 0 ? (
-        <div className="space-y-6">
+        <div className="space-y-4 sm:space-y-6">
           {/* Warnings */}
           {uniqueWarnings.length > 0 && (
             <div className="space-y-3">
@@ -174,33 +242,33 @@ export default function DeadlineTrackerPage({ hubs }: { hubs: CourseHub[] }) {
           {/* Grouped deadlines */}
           {Object.entries(groupedDeadlines).map(([courseName, items]) => (
             <Card key={courseName}>
-              <CardContent className="p-5">
-                <div className="flex items-center justify-between mb-3">
-                  <h3 className="font-semibold">{courseName}</h3>
+              <CardContent className="p-4 sm:p-5">
+                <div className="flex flex-col sm:flex-row items-start sm:items-center sm:justify-between gap-2 sm:gap-3 mb-3">
+                  <h3 className="font-semibold text-sm sm:text-base">{courseName}</h3>
                   <Button
                     variant="ghost"
                     size="sm"
                     onClick={() => toggleCourse(items[0].courseSlug)}
-                    className="h-8 gap-1.5 text-xs text-muted-foreground hover:text-destructive"
+                    className="h-8 gap-1.5 text-xs text-muted-foreground hover:text-destructive w-full sm:w-auto justify-start sm:justify-center"
                   >
                     <Trash2 className="h-3 w-3" />
                     Remove
                   </Button>
                 </div>
-                <div className="space-y-3">
+                <div className="space-y-2 sm:space-y-3">
                   {items.map((d, i) => (
                     <div
                       key={i}
-                      className="flex items-start gap-3 rounded-lg bg-muted p-3"
+                      className="flex items-start gap-2 sm:gap-3 rounded-lg bg-muted p-2 sm:p-3"
                     >
-                      <CalendarDays className="mt-0.5 h-5 w-5 shrink-0 text-primary" />
-                      <div>
+                      <CalendarDays className="mt-0.5 h-4 sm:h-5 w-4 sm:w-5 shrink-0 text-primary" />
+                      <div className="min-w-0">
                         <div className="flex items-center gap-2">
                           <Badge variant="outline" className="text-xs">
                             {d.label}
                           </Badge>
                         </div>
-                        <p className="mt-1 text-sm text-muted-foreground">
+                        <p className="mt-1 text-xs sm:text-sm text-muted-foreground break-words">
                           {d.detail}
                         </p>
                       </div>
@@ -231,12 +299,12 @@ export default function DeadlineTrackerPage({ hubs }: { hubs: CourseHub[] }) {
         </div>
       ) : (
         <Card>
-          <CardContent className="p-12 text-center">
-            <CalendarClock className="mx-auto h-12 w-12 text-muted-foreground/30" />
-            <h3 className="mt-4 text-lg font-semibold text-muted-foreground">
+          <CardContent className="p-8 sm:p-12 text-center">
+            <CalendarClock className="mx-auto h-10 sm:h-12 w-10 sm:w-12 text-muted-foreground/30" />
+            <h3 className="mt-4 text-base sm:text-lg font-semibold text-muted-foreground">
               No courses tracked yet
             </h3>
-            <p className="mt-1 text-sm text-muted-foreground">
+            <p className="mt-1 text-xs sm:text-sm text-muted-foreground">
               Select courses above to see their application deadlines.
             </p>
           </CardContent>

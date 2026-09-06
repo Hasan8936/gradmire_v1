@@ -7,6 +7,7 @@ import {
   Banknote,
   PiggyBank,
   Info,
+  ArrowUp,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -22,6 +23,94 @@ function range(min: number | undefined, max: number | undefined) {
   const low = min ?? max ?? 0;
   const high = max ?? min ?? 0;
   return { low, high };
+}
+
+/**
+ * Parse salary range strings like "£42,000–£75,000" into numeric min/max.
+ * Handles various currency symbols and formats.
+ */
+function parseSalaryRange(rangeStr: string | undefined): { low: number; high: number } | null {
+  if (!rangeStr) return null;
+  // Match patterns like £42,000–£75,000 or $42000-$75000
+  const match = rangeStr.match(/[\d,]+/g);
+  if (!match || match.length < 2) return null;
+  const low = parseInt(match[0].replace(/,/g, ""), 10);
+  const high = parseInt(match[1].replace(/,/g, ""), 10);
+  if (isNaN(low) || isNaN(high)) return null;
+  return { low, high };
+}
+
+/** Component to display salary progression chart */
+function SalaryProgressionChart({
+  year1,
+  year3,
+  year5,
+}: {
+  year1?: string;
+  year3?: string;
+  year5?: string;
+}) {
+  const data = [
+    { year: "Year 1", range: year1 },
+    { year: "Year 3", range: year3 },
+    { year: "Year 5", range: year5 },
+  ].filter((d) => d.range);
+
+  const parsed = data.map((d) => ({
+    ...d,
+    values: parseSalaryRange(d.range),
+  }));
+
+  if (parsed.length === 0 || parsed.some((p) => !p.values)) return null;
+
+  // Find max value for scaling
+  const maxValue = Math.max(
+    ...parsed.map((p) => p.values?.high ?? 0)
+  );
+  const scale = maxValue > 0 ? 100 / maxValue : 1;
+
+  return (
+    <div className="space-y-4">
+      {parsed.map((item) => {
+        const low = item.values!.low;
+        const high = item.values!.high;
+        const lowPct = low * scale;
+        const highPct = high * scale;
+        const midPct = (lowPct + highPct) / 2;
+
+        return (
+          <div key={item.year}>
+            <div className="flex items-center justify-between mb-1">
+              <span className="text-xs font-medium text-muted-foreground">
+                {item.year}
+              </span>
+              <span className="text-xs font-semibold text-primary">
+                {item.range}
+              </span>
+            </div>
+            <div className="relative h-6 rounded-full bg-muted overflow-hidden">
+              <div
+                className="absolute top-0 bottom-0 rounded-full gradient-primary opacity-80 transition-all"
+                style={{
+                  left: `${lowPct}%`,
+                  right: `${100 - highPct}%`,
+                }}
+              />
+              <div
+                className="absolute top-1/2 -translate-y-1/2 text-xs font-bold text-white drop-shadow transition-all"
+                style={{
+                  left: `${midPct}%`,
+                  transform: "translate(-50%, -50%)",
+                }}
+              >
+                ↑
+              </div>
+            </div>
+          </div>
+        );
+      })}
+    </div>
+  );
 }
 
 export default function ROICalculatorPage({ hubs }: { hubs: CourseHub[] }) {
@@ -65,21 +154,21 @@ export default function ROICalculatorPage({ hubs }: { hubs: CourseHub[] }) {
   const fmt = (n: number) => formatMoney(Math.round(n), currency);
 
   return (
-    <div className="mx-auto max-w-3xl gutter py-16">
-      <div className="text-center mb-10">
+    <div className="mx-auto max-w-3xl gutter py-8 sm:py-16">
+      <div className="text-center mb-8 sm:mb-10">
         <Badge variant="outline" className="mb-4">
           <Calculator className="mr-1.5 h-3.5 w-3.5" />
           ROI Calculator
         </Badge>
-        <h1 className="text-3xl font-bold">Return on Investment Calculator</h1>
-        <p className="mt-2 text-muted-foreground">
+        <h1 className="text-2xl sm:text-3xl font-bold">Return on Investment Calculator</h1>
+        <p className="mt-2 text-sm sm:text-base text-muted-foreground">
           Compare your study costs against expected graduate earnings.
         </p>
       </div>
 
       {/* Selectors */}
-      <Card className="mb-8">
-        <CardContent className="p-6 space-y-4">
+      <Card className="mb-6 sm:mb-8">
+        <CardContent className="p-4 sm:p-6 space-y-4">
           <div>
             <Label className="text-sm font-medium">Destination</Label>
             <div className="mt-2 flex flex-wrap gap-2">
@@ -127,37 +216,37 @@ export default function ROICalculatorPage({ hubs }: { hubs: CourseHub[] }) {
 
       {/* Results */}
       {course && calculations ? (
-        <div className="space-y-6">
-          <div className="grid gap-4 sm:grid-cols-3">
+        <div className="space-y-4 sm:space-y-6">
+          <div className="grid gap-3 sm:gap-4 grid-cols-1 sm:grid-cols-3">
             <Card>
-              <CardContent className="p-5 text-center">
-                <Banknote className="mx-auto h-8 w-8 text-primary/50" />
+              <CardContent className="p-3 sm:p-5 text-center">
+                <Banknote className="mx-auto h-6 sm:h-8 w-6 sm:w-8 text-primary/50" />
                 <div className="mt-2 text-xs text-muted-foreground uppercase tracking-wider">
                   Annual Tuition
                 </div>
-                <div className="mt-1 text-xl font-bold">
+                <div className="mt-1 text-base sm:text-xl font-bold break-words">
                   {course.tuitionRange}
                 </div>
               </CardContent>
             </Card>
             <Card>
-              <CardContent className="p-5 text-center">
-                <PiggyBank className="mx-auto h-8 w-8 text-primary/50" />
+              <CardContent className="p-3 sm:p-5 text-center">
+                <PiggyBank className="mx-auto h-6 sm:h-8 w-6 sm:w-8 text-primary/50" />
                 <div className="mt-2 text-xs text-muted-foreground uppercase tracking-wider">
                   Monthly Living
                 </div>
-                <div className="mt-1 text-xl font-bold">
+                <div className="mt-1 text-base sm:text-xl font-bold break-words">
                   {course.livingCosts}
                 </div>
               </CardContent>
             </Card>
             <Card>
-              <CardContent className="p-5 text-center">
-                <TrendingUp className="mx-auto h-8 w-8 text-primary/50" />
+              <CardContent className="p-3 sm:p-5 text-center">
+                <TrendingUp className="mx-auto h-6 sm:h-8 w-6 sm:w-8 text-primary/50" />
                 <div className="mt-2 text-xs text-muted-foreground uppercase tracking-wider">
                   Median Salary
                 </div>
-                <div className="mt-1 text-xl font-bold">
+                <div className="mt-1 text-base sm:text-xl font-bold break-words">
                   {course.medianSalaryRange}
                 </div>
               </CardContent>
@@ -220,6 +309,28 @@ export default function ROICalculatorPage({ hubs }: { hubs: CourseHub[] }) {
             </CardContent>
           </Card>
 
+          {/* Salary Progression */}
+          {(course.salaryProgressionOneYear ||
+            course.salaryProgressionThreeYear ||
+            course.salaryProgressionFiveYear) && (
+            <Card>
+              <CardContent className="p-6">
+                <div className="flex items-center gap-2 mb-4">
+                  <ArrowUp className="h-5 w-5 text-primary" />
+                  <h3 className="font-semibold">Career Salary Progression</h3>
+                </div>
+                <p className="text-xs text-muted-foreground mb-4">
+                  Expected salary growth over the first 5 years
+                </p>
+                <SalaryProgressionChart
+                  year1={course.salaryProgressionOneYear}
+                  year3={course.salaryProgressionThreeYear}
+                  year5={course.salaryProgressionFiveYear}
+                />
+              </CardContent>
+            </Card>
+          )}
+
           <div className="callout-info flex gap-3">
             <Info className="mt-0.5 h-5 w-5 shrink-0 text-primary" />
             <p className="text-sm text-muted-foreground">
@@ -232,12 +343,12 @@ export default function ROICalculatorPage({ hubs }: { hubs: CourseHub[] }) {
         </div>
       ) : (
         <Card>
-          <CardContent className="p-12 text-center">
-            <Calculator className="mx-auto h-12 w-12 text-muted-foreground/30" />
-            <h3 className="mt-4 text-lg font-semibold text-muted-foreground">
+          <CardContent className="p-8 sm:p-12 text-center">
+            <Calculator className="mx-auto h-10 sm:h-12 w-10 sm:w-12 text-muted-foreground/30" />
+            <h3 className="mt-4 text-base sm:text-lg font-semibold text-muted-foreground">
               Select a course to calculate ROI
             </h3>
-            <p className="mt-1 text-sm text-muted-foreground">
+            <p className="mt-1 text-xs sm:text-sm text-muted-foreground">
               Choose a destination and course above to see the cost breakdown.
             </p>
           </CardContent>

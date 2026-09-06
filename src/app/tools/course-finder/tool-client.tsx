@@ -126,47 +126,64 @@ export default function CourseFinderPage({ hubs }: { hubs: CourseHub[] }) {
 
   if (showResults) {
     return (
-      <div className="mx-auto max-w-3xl gutter py-16">
-        <div className="text-center mb-10">
-          <div className="inline-flex h-16 w-16 items-center justify-center rounded-2xl bg-primary/10 mb-4">
-            <Target className="h-8 w-8 text-primary" />
+      <div className="mx-auto max-w-3xl gutter py-8 sm:py-16">
+        <div className="text-center mb-8 sm:mb-10">
+          <div className="inline-flex h-12 sm:h-16 w-12 sm:w-16 items-center justify-center rounded-2xl bg-primary/10 mb-4">
+            <Target className="h-6 sm:h-8 w-6 sm:w-8 text-primary" />
           </div>
-          <h1 className="text-3xl font-bold">Your Recommendations</h1>
-          <p className="mt-2 text-muted-foreground">
+          <h1 className="text-2xl sm:text-3xl font-bold">Your Recommendations</h1>
+          <p className="mt-2 text-sm sm:text-base text-muted-foreground">
             Based on your answers, here are the courses we recommend.
           </p>
         </div>
 
-        <div className="space-y-4">
-          {results.map((course) => {
+        {results.length === 0 ? (
+          <Card>
+            <CardContent className="p-8 sm:p-12 text-center">
+              <BookOpen className="mx-auto h-10 sm:h-12 w-10 sm:w-12 text-muted-foreground/30" />
+              <h3 className="mt-4 text-base sm:text-lg font-semibold text-muted-foreground">
+                No courses found
+              </h3>
+              <p className="mt-2 text-xs sm:text-sm text-muted-foreground">
+                We couldn&apos;t find courses matching your criteria. Try adjusting
+                your preferences or contact us for personalized guidance.
+              </p>
+            </CardContent>
+          </Card>
+        ) : (
+          <div className="space-y-3 sm:space-y-4">
+            {results.map((course) => {
             const Icon = iconMap[course.icon] || BookOpen;
             return (
               <Card
                 key={course.slug}
                 className="transition-shadow duration-150 ease-out hover:shadow-lg"
               >
-                <CardContent className="p-6">
-                  <div className="flex items-start gap-4">
-                    <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-primary/10">
-                      <Icon className="h-6 w-6 text-primary" />
+                <CardContent className="p-4 sm:p-6">
+                  <div className="flex flex-col sm:flex-row items-start gap-3 sm:gap-4">
+                    <div className="flex h-10 w-10 sm:h-12 sm:w-12 shrink-0 items-center justify-center rounded-xl bg-primary/10">
+                      <Icon className="h-5 sm:h-6 w-5 sm:w-6 text-primary" />
                     </div>
                     <div className="flex-1">
-                      <h3 className="text-lg font-semibold">{course.name}</h3>
-                      <p className="mt-1 text-sm text-muted-foreground">
+                      <h3 className="text-base sm:text-lg font-semibold">{course.name}</h3>
+                      <p className="mt-1 text-xs sm:text-sm text-muted-foreground">
                         {course.oneLiner}
                       </p>
-                      <div className="mt-3 flex flex-wrap gap-2">
+                      <div className="mt-3 flex flex-wrap gap-1.5 sm:gap-2">
                         {course.tuitionRange && (
-                          <Badge variant="secondary">{course.tuitionRange}</Badge>
+                          <Badge variant="secondary" className="text-xs sm:text-sm">{course.tuitionRange}</Badge>
                         )}
                         {course.medianSalaryRange && (
-                          <Badge variant="outline">Salary: {course.medianSalaryRange}</Badge>
+                          <Badge variant="outline" className="text-xs sm:text-sm">Salary: {course.medianSalaryRange}</Badge>
                         )}
                         {course.universities && (
-                          <Badge variant="outline">{course.universities.length} universities</Badge>
+                          <Badge variant="outline" className="text-xs sm:text-sm">{course.universities.length} universities</Badge>
+                        )}
+                        {results.indexOf(course) === 0 && results.length > 1 && (
+                          <Badge className="bg-green-600 text-xs sm:text-sm">Best Match</Badge>
                         )}
                       </div>
-                      <Button asChild className="mt-4 gap-2" size="sm">
+                      <Button asChild className="mt-4 w-full sm:w-auto gap-2" size="sm">
                         <Link href={`/${course.countrySlug}/courses/${course.slug}`}>
                           View Full Guide
                           <ArrowRight className="h-3.5 w-3.5" />
@@ -177,43 +194,46 @@ export default function CourseFinderPage({ hubs }: { hubs: CourseHub[] }) {
                 </CardContent>
               </Card>
             );
-          })}
-        </div>
+            })}
+          </div>
+        )}
 
-        <div className="mt-8 flex flex-col items-center gap-3 sm:flex-row sm:justify-center">
-          <Button variant="outline" onClick={prev} className="gap-2">
-            <ArrowLeft className="h-4 w-4" />
-            Back
-          </Button>
-          <Button variant="outline" onClick={() => { setStep(0); setShowResults(false); setAnswers(initialAnswers); }}>
-            Start Over
-          </Button>
-          <Button asChild className="gap-2">
+        <div className="mt-8 flex flex-col gap-3">
+          <Button asChild className="w-full gap-2">
             <Link href="/contact">
               Book Free Consultation
               <ArrowRight className="h-4 w-4" />
             </Link>
           </Button>
+          <div className="flex flex-col sm:flex-row gap-3 sm:justify-center">
+            <Button variant="outline" onClick={prev} className="w-full sm:w-auto gap-2">
+              <ArrowLeft className="h-4 w-4" />
+              Back
+            </Button>
+            <Button variant="outline" onClick={() => { setStep(0); setShowResults(false); setAnswers(initialAnswers); }} className="w-full sm:w-auto">
+              Start Over
+            </Button>
+          </div>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="mx-auto max-w-2xl gutter py-16">
-      <div className="text-center mb-10">
+    <div className="mx-auto max-w-2xl gutter py-8 sm:py-16">
+      <div className="text-center mb-8 sm:mb-10">
         <Badge variant="outline" className="mb-4">
           <Search className="mr-1.5 h-3.5 w-3.5" />
           Course Finder
         </Badge>
-        <h1 className="text-3xl font-bold">Find your perfect course</h1>
-        <p className="mt-2 text-muted-foreground">
+        <h1 className="text-2xl sm:text-3xl font-bold">Find your perfect course</h1>
+        <p className="mt-2 text-sm sm:text-base text-muted-foreground">
           Answer {TOTAL_STEPS} quick questions to get personalized recommendations.
         </p>
       </div>
 
       {/* Progress */}
-      <div className="mb-8">
+      <div className="mb-6 sm:mb-8">
         <div className="flex items-center justify-between text-xs text-muted-foreground mb-2">
           <span>Step {step + 1} of {TOTAL_STEPS}</span>
           <span>{Math.round(((step + 1) / TOTAL_STEPS) * 100)}%</span>
@@ -232,11 +252,11 @@ export default function CourseFinderPage({ hubs }: { hubs: CourseHub[] }) {
       </div>
 
       <Card>
-        <CardContent className="p-6 sm:p-8">
+        <CardContent className="p-4 sm:p-6 md:p-8">
           {/* Step 0: Subject */}
           {step === 0 && (
             <div>
-              <h2 className="text-lg font-semibold mb-4">
+              <h2 className="text-base sm:text-lg font-semibold mb-4">
                 What subject area interests you most?
               </h2>
               <RadioGroup
@@ -265,7 +285,7 @@ export default function CourseFinderPage({ hubs }: { hubs: CourseHub[] }) {
           {/* Step 1: Grades */}
           {step === 1 && (
             <div>
-              <h2 className="text-lg font-semibold mb-4">
+              <h2 className="text-base sm:text-lg font-semibold mb-4">
                 What are your expected or achieved grades?
               </h2>
               <RadioGroup
@@ -290,7 +310,7 @@ export default function CourseFinderPage({ hubs }: { hubs: CourseHub[] }) {
           {/* Step 2: Budget */}
           {step === 2 && (
             <div>
-              <h2 className="text-lg font-semibold mb-4">
+              <h2 className="text-base sm:text-lg font-semibold mb-4">
                 What&apos;s your annual budget range?
               </h2>
               <RadioGroup
@@ -315,7 +335,7 @@ export default function CourseFinderPage({ hubs }: { hubs: CourseHub[] }) {
           {/* Step 3: Destinations */}
           {step === 3 && (
             <div>
-              <h2 className="text-lg font-semibold mb-4">
+              <h2 className="text-base sm:text-lg font-semibold mb-4">
                 Which destinations are you open to?
               </h2>
               <div className="space-y-3">
@@ -363,7 +383,7 @@ export default function CourseFinderPage({ hubs }: { hubs: CourseHub[] }) {
           {/* Step 4: Priority */}
           {step === 4 && (
             <div>
-              <h2 className="text-lg font-semibold mb-4">
+              <h2 className="text-base sm:text-lg font-semibold mb-4">
                 What&apos;s your top priority?
               </h2>
               <RadioGroup
@@ -388,17 +408,17 @@ export default function CourseFinderPage({ hubs }: { hubs: CourseHub[] }) {
       </Card>
 
       {/* Navigation */}
-      <div className="mt-6 flex items-center justify-between">
+      <div className="mt-6 flex flex-col sm:flex-row items-center gap-3 sm:justify-between">
         <Button
           variant="outline"
           onClick={prev}
           disabled={step === 0}
-          className="gap-2"
+          className="w-full sm:w-auto gap-2"
         >
           <ArrowLeft className="h-4 w-4" />
           Back
         </Button>
-        <Button onClick={next} disabled={!canProceed()} className="gap-2">
+        <Button onClick={next} disabled={!canProceed()} className="w-full sm:w-auto gap-2">
           {step === TOTAL_STEPS - 1 ? "See Results" : "Next"}
           <ArrowRight className="h-4 w-4" />
         </Button>
