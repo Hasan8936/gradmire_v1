@@ -1,4 +1,3 @@
-import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight, ChevronRight } from "lucide-react";
 import { SiteHeader } from "@/components/brand/site-header";
@@ -9,7 +8,6 @@ import { Container } from "@/components/ui/container";
 import { Cta } from "@/components/ui/cta";
 import { CityCard } from "@/components/ui/city-card";
 import { courseHubs } from "@/data/courses";
-import { cn } from "@/lib/utils";
 
 export const revalidate = 3600;
 
@@ -83,7 +81,7 @@ export default async function UKPage() {
                 Explore <em className="font-medium italic text-coral">the United Kingdom</em>
               </h1>
               <p className="mb-[30px] max-w-[46ch] text-[17.5px] text-ink-soft">
-                The UK offers world-class education with 1-year Master's degrees, a 2-year graduate work visa, and unmatched career opportunities. Explore cities, courses, and universities.
+                The UK offers world-class education with 1-year Master&apos;s degrees, a 2-year graduate work visa, and unmatched career opportunities. Explore cities, courses, and universities.
               </p>
               <div className="flex flex-wrap gap-3.5">
                 <Cta
@@ -218,10 +216,10 @@ export default async function UKPage() {
                 Ready to start?
               </span>
               <h2 className="mx-auto mb-4 mt-3 max-w-[16ch] text-[clamp(28px,3.6vw,42px)] font-semibold text-white">
-                Let's find your course
+                Let&apos;s find your course
               </h2>
               <p className="mx-auto mb-8 max-w-[42ch] text-lede text-paper/60">
-                Book a free consultation. We'll help you shortlist the right programmes and guide you through every step, from applications to visa.
+                Book a free consultation. We&apos;ll help you shortlist the right programmes and guide you through every step, from applications to visa.
               </p>
               <div className="flex flex-wrap justify-center gap-3.5">
                 <Cta

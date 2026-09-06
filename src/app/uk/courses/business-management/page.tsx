@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { ArrowRight, ChevronRight, Briefcase, Users, TrendingUp, FileText, AlertCircle, Passport } from "lucide-react";
+import { ArrowRight, ChevronRight, Briefcase, Users, TrendingUp, FileText, AlertCircle, Globe } from "lucide-react";
 import { SiteHeader } from "@/components/brand/site-header";
 import { SiteFooter } from "@/components/brand/site-footer";
 import { Reveal } from "@/components/motion/reveal";
@@ -352,7 +352,7 @@ export default function BusinessManagementPage() {
               <div>
                 <Reveal className="mb-6">
                   <h2 className="text-xl font-semibold flex items-center gap-2">
-                    <Passport size={24} className="text-coral" aria-hidden="true" />
+                    <Globe size={24} className="text-coral" aria-hidden="true" />
                     Visa & Work Rights
                   </h2>
                 </Reveal>

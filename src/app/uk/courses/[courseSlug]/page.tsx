@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { ArrowRight, ChevronRight, AlertCircle, Passport } from "lucide-react";
+import { ArrowRight, ChevronRight, AlertCircle, Plane } from "lucide-react";
 import { SiteHeader } from "@/components/brand/site-header";
 import { SiteFooter } from "@/components/brand/site-footer";
 import { Reveal } from "@/components/motion/reveal";
@@ -20,8 +20,9 @@ export async function generateStaticParams() {
     }));
 }
 
-export async function generateMetadata({ params }: { params: { courseSlug: string } }) {
-  const course = getCourse("uk", params.courseSlug);
+export async function generateMetadata({ params }: { params: Promise<{ courseSlug: string }> }) {
+  const { courseSlug } = await params;
+  const course = getCourse("uk", courseSlug);
   if (!course) return {};
 
   return {
@@ -30,8 +31,9 @@ export async function generateMetadata({ params }: { params: { courseSlug: strin
   };
 }
 
-export default function CoursePage({ params }: { params: { courseSlug: string } }) {
-  const course = getCourse("uk", params.courseSlug);
+export default async function CoursePage({ params }: { params: Promise<{ courseSlug: string }> }) {
+  const { courseSlug } = await params;
+  const course = getCourse("uk", courseSlug);
 
   if (!course) {
     notFound();
@@ -379,7 +381,7 @@ export default function CoursePage({ params }: { params: { courseSlug: string } 
                   <div>
                     <Reveal className="mb-6">
                       <h2 className="text-xl font-semibold flex items-center gap-2">
-                        <Passport size={24} className="text-coral" aria-hidden="true" />
+                        <Plane size={24} className="text-coral" aria-hidden="true" />
                         Visa & Work Rights
                       </h2>
                     </Reveal>
