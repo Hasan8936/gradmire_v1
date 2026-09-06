@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import type { CourseHub } from "@/data/courses";
 import { SiteHeader } from "@/components/brand/site-header";
 import { SiteFooter } from "@/components/brand/site-footer";
 import { getHubsForTools } from "@/lib/tool-data";
@@ -15,7 +16,14 @@ export const metadata: Metadata = {
 export const revalidate = 3600;
 
 export default async function Page() {
-  const hubs = await getHubsForTools();
+  let hubs: CourseHub[] = [];
+  try {
+    hubs = await getHubsForTools();
+  } catch (error) {
+    // If database is unavailable (build time), use empty array
+    // The client component will use fallback data from courseHubs
+    console.warn("Database unavailable for ROI Calculator, using fallback data", error);
+  }
   return (
     <>
       <SiteHeader />
