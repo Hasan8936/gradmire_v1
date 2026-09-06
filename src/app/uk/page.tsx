@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight, ChevronRight } from "lucide-react";
 import { SiteHeader } from "@/components/brand/site-header";
@@ -25,14 +26,14 @@ const UK_CITIES = [
     description: "Creative hub with historic architecture and innovative spirit",
     universities: 5,
     imageUrl:
-      "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800&h=600&fit=crop&q=85",
+      "https://images.unsplash.com/photo-1724135869739-6055627ba5df?w=800&h=600&fit=crop&q=85",
   },
   {
     name: "Edinburgh",
     description: "Historic city blending medieval charm with modern excellence",
     universities: 4,
     imageUrl:
-      "https://images.unsplash.com/photo-1565008576549-bdcd6d60b69e?w=800&h=600&fit=crop&q=85",
+      "https://images.unsplash.com/photo-1677466428021-ae11bf0421d1?w=800&h=600&fit=crop&q=85",
   },
   {
     name: "Birmingham",
@@ -73,7 +74,23 @@ export default async function UKPage() {
         </section>
 
         {/* Hero Section */}
-        <section className="gutter overflow-hidden pb-10 pt-16">
+        <section className="gutter relative overflow-hidden pb-10 pt-16">
+          {/* Blurred UK skyline backdrop. Scaled up so the blur radius never
+              reveals a sharp edge, and washed with the paper tones the rest
+              of the page uses so the hero text stays fully legible. */}
+          <div className="absolute inset-0 -z-10" aria-hidden="true">
+            <Image
+              src="https://images.unsplash.com/photo-1456603719096-e977bdc92571?w=1600&h=900&fit=crop&q=80"
+              alt=""
+              fill
+              priority
+              sizes="100vw"
+              className="scale-110 object-cover blur-md"
+            />
+            <div className="absolute inset-0 bg-paper/88" />
+            <div className="absolute inset-0 bg-gradient-to-r from-paper via-paper/75 to-paper/40" />
+          </div>
+
           <Container>
             <div className="max-w-[640px] mb-12">
               <span className="eyebrow">Study in the UK</span>
