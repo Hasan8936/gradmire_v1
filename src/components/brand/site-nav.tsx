@@ -12,6 +12,13 @@ import {
   Scale,
   CalendarClock,
   BookOpen,
+  Briefcase,
+  Cpu,
+  Wrench,
+  Heart,
+  PenTool,
+  TrendingUp,
+  Brain,
   type LucideIcon,
 } from "lucide-react";
 import {
@@ -35,12 +42,21 @@ import { Logo } from "@/components/brand/logo";
  */
 
 /** Config carries icon *names* so it stays serialisable; resolve them here. */
-const TOOL_ICONS: Record<string, LucideIcon> = {
+const ICON_MAP: Record<string, LucideIcon> = {
   Compass,
   Calculator,
   Scale,
   CalendarClock,
+  Briefcase,
+  Cpu,
+  Wrench,
+  Heart,
+  PenTool,
+  TrendingUp,
+  Brain,
 };
+
+const TOOL_ICONS = ICON_MAP;
 
 const triggerCls =
   "group flex items-center gap-1 rounded-pill px-3 py-2 text-[14.5px] font-medium text-ink outline-none transition-colors hover:text-coral-text data-[state=open]:text-coral-text";
@@ -213,32 +229,73 @@ export function SiteNav({
             fallbackHref={coursesHref}
             hasItems={nav.hubs.length > 0}
           >
-            {nav.hubs.map((hub) =>
-              hub.live ? (
-                <DropdownMenuItem key={hub.slug} asChild>
-                  <Link href={hub.href}>
-                    <span className="flex-1">
-                      <span className="block font-medium text-ink">{hub.name}</span>
-                      {hub.tuition && (
-                        <span className="block text-[12px] text-ink-soft">{hub.tuition}</span>
+            {(() => {
+              const liveHubs = nav.hubs.filter((h) => h.live);
+              const comingSoonHubs = nav.hubs.filter((h) => !h.live);
+
+              return (
+                <>
+                  {liveHubs.length > 0 && (
+                    <>
+                      {liveHubs.map((hub) => {
+                        const Icon = hub.icon ? ICON_MAP[hub.icon] : BookOpen;
+                        return (
+                          <DropdownMenuItem key={hub.slug} asChild>
+                            <Link href={hub.href}>
+                              <Icon
+                                size={17}
+                                aria-hidden="true"
+                                className="mt-0.5 shrink-0 text-coral-text"
+                              />
+                              <span className="flex-1">
+                                <span className="block font-medium text-ink">{hub.name}</span>
+                                {hub.oneLiner && (
+                                  <span className="block text-[12px] text-ink-soft line-clamp-2">
+                                    {hub.oneLiner}
+                                  </span>
+                                )}
+                                {!hub.oneLiner && hub.tuition && (
+                                  <span className="block text-[12px] text-ink-soft">{hub.tuition}</span>
+                                )}
+                              </span>
+                              <span className="mt-0.5 rounded-pill bg-brandgreen-dim px-2 py-0.5 font-mono text-micro uppercase tracking-wider text-ink shrink-0">
+                                Live
+                              </span>
+                            </Link>
+                          </DropdownMenuItem>
+                        );
+                      })}
+                      {comingSoonHubs.length > 0 && (
+                        <div className="border-t border-line/60 my-2" aria-hidden="true" />
                       )}
-                    </span>
-                    <ArrowRight
-                      size={13}
-                      aria-hidden="true"
-                      className="mt-1 shrink-0 text-ink-soft"
-                    />
-                  </Link>
-                </DropdownMenuItem>
-              ) : (
-                <DropdownMenuItem key={hub.slug} disabled>
-                  <span className="flex-1">
-                    <span className="block font-medium text-ink-soft">{hub.name}</span>
-                    <span className="block text-[12px] text-ink-soft/70">In research</span>
-                  </span>
-                </DropdownMenuItem>
-              ),
-            )}
+                    </>
+                  )}
+                  {comingSoonHubs.map((hub) => {
+                    const Icon = hub.icon ? ICON_MAP[hub.icon] : BookOpen;
+                    return (
+                      <DropdownMenuItem key={hub.slug} disabled>
+                        <Icon
+                          size={17}
+                          aria-hidden="true"
+                          className="mt-0.5 shrink-0 text-ink-soft/40"
+                        />
+                        <span className="flex-1">
+                          <span className="block font-medium text-ink-soft">{hub.name}</span>
+                          {hub.oneLiner && (
+                            <span className="block text-[12px] text-ink-soft/70 line-clamp-2">
+                              {hub.oneLiner}
+                            </span>
+                          )}
+                        </span>
+                        <span className="mt-0.5 rounded-pill bg-paper-dim px-2 py-0.5 font-mono text-micro uppercase tracking-wider text-ink-soft shrink-0">
+                          Soon
+                        </span>
+                      </DropdownMenuItem>
+                    );
+                  })}
+                </>
+              );
+            })()}
           </NavMenu>
 
           <NavMenu label="Tools" fallbackHref={TOOLS[0].href} hasItems>
@@ -381,25 +438,72 @@ export function SiteNav({
               expanded={mobileSection === "Courses"}
               onToggle={() => toggleMobileSection("Courses")}
             >
-              {nav.hubs.map((hub) =>
-                hub.live ? (
-                  <Link
-                    key={hub.slug}
-                    href={hub.href}
-                    onClick={() => setOpen(false)}
-                    className="block py-3 text-ui text-ink"
-                  >
-                    {hub.name}
-                  </Link>
-                ) : (
-                  <span key={hub.slug} className="block py-3 text-ui text-ink-soft">
-                    {hub.name}{" "}
-                    <span className="font-mono text-micro uppercase tracking-wider">
-                      In research
-                    </span>
-                  </span>
-                ),
-              )}
+              {(() => {
+                const liveHubs = nav.hubs.filter((h) => h.live);
+                const comingSoonHubs = nav.hubs.filter((h) => !h.live);
+
+                return (
+                  <>
+                    {liveHubs.length > 0 && (
+                      <>
+                        {liveHubs.map((hub) => {
+                          const Icon = hub.icon ? ICON_MAP[hub.icon] : BookOpen;
+                          return (
+                            <div key={hub.slug} className="flex items-start gap-2.5 py-3">
+                              <Icon
+                                size={17}
+                                aria-hidden="true"
+                                className="mt-0.5 shrink-0 text-coral-text"
+                              />
+                              <Link
+                                href={hub.href}
+                                onClick={() => setOpen(false)}
+                                className="flex-1 text-ui text-ink"
+                              >
+                                <span className="font-medium">{hub.name}</span>
+                                {hub.oneLiner && (
+                                  <span className="block text-[12px] text-ink-soft mt-1">
+                                    {hub.oneLiner}
+                                  </span>
+                                )}
+                              </Link>
+                              <span className="ml-auto font-mono text-micro uppercase tracking-wider text-ink-soft shrink-0 whitespace-nowrap">
+                                Live
+                              </span>
+                            </div>
+                          );
+                        })}
+                        {comingSoonHubs.length > 0 && (
+                          <div className="border-b border-line/60 my-2" aria-hidden="true" />
+                        )}
+                      </>
+                    )}
+                    {comingSoonHubs.map((hub) => {
+                      const Icon = hub.icon ? ICON_MAP[hub.icon] : BookOpen;
+                      return (
+                        <div key={hub.slug} className="flex items-start gap-2.5 py-3 opacity-60">
+                          <Icon
+                            size={17}
+                            aria-hidden="true"
+                            className="mt-0.5 shrink-0 text-ink-soft/40"
+                          />
+                          <div className="flex-1">
+                            <span className="text-ui text-ink-soft">{hub.name}</span>
+                            {hub.oneLiner && (
+                              <span className="block text-[12px] text-ink-soft/70 mt-1">
+                                {hub.oneLiner}
+                              </span>
+                            )}
+                          </div>
+                          <span className="font-mono text-micro uppercase tracking-wider text-ink-soft shrink-0 whitespace-nowrap">
+                            Soon
+                          </span>
+                        </div>
+                      );
+                    })}
+                  </>
+                );
+              })()}
             </MobileSection>
           )}
 

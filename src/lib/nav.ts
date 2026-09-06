@@ -35,6 +35,10 @@ export type NavHub = {
   live: boolean;
   /** Formatted tuition range, or null when the hub carries no figures. */
   tuition: string | null;
+  /** Lucide icon name for display in dropdowns */
+  icon: string | null;
+  /** Short description for dropdown tooltip/hover */
+  oneLiner: string | null;
 };
 
 export type Navigation = {
@@ -73,6 +77,8 @@ export const getNavigation = cache(async (): Promise<Navigation> => {
           { min: h.tuitionMin, max: h.tuitionMax, currency: h.currency },
           { suffix: "/year", compact: true },
         ),
+        icon: h.icon,
+        oneLiner: h.oneLiner,
       })),
     };
   } catch (error) {
