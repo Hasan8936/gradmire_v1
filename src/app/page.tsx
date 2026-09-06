@@ -153,14 +153,14 @@ const UK_CITIES = [
     description: "Creative hub known for innovation and world-class research",
     universities: 5,
     imageUrl:
-      "https://images.unsplash.com/photo-1603695785203-d87d5b14b47a?w=600&h=400&fit=crop",
+      "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=600&h=400&fit=crop&q=85",
   },
   {
     name: "Edinburgh",
     description: "Historic city blending heritage with cutting-edge research",
     universities: 4,
     imageUrl:
-      "https://images.unsplash.com/photo-1535050487db-2b1f38f37aa3?w=600&h=400&fit=crop",
+      "https://images.unsplash.com/photo-1565008576549-bdcd6d60b69e?w=600&h=400&fit=crop&q=85",
   },
   {
     name: "Birmingham",

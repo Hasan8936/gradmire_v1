@@ -15,7 +15,10 @@ const nextConfig = {
   // was missing, so in production every Unsplash photo on the homepage was
   // silently broken regardless of what the component code rendered.
   images: {
-    remotePatterns: [{ protocol: "https", hostname: "images.unsplash.com" }],
+    remotePatterns: [
+      { protocol: "https", hostname: "images.unsplash.com" },
+      { protocol: "https", hostname: "api.dicebear.com" },
+    ],
   },
   // `postgres` is a Node driver with no business being webpack-bundled into
   // every server function; externalising it cuts cold-start parse time.
