@@ -59,7 +59,7 @@ const ICON_MAP: Record<string, LucideIcon> = {
 const TOOL_ICONS = ICON_MAP;
 
 const triggerCls =
-  "group flex items-center gap-1 rounded-pill px-3 py-2 text-[14.5px] font-medium text-ink outline-none transition-all duration-200 hover:text-coral-text data-[state=open]:text-coral-text hover:bg-coral-dim/40 data-[state=open]:bg-coral-dim/40";
+  "group flex items-center gap-1 rounded-pill px-3 py-2 text-[14.5px] font-medium text-ink outline-none transition-all duration-200 hover:text-coral-text data-[state=open]:text-coral-text hover:bg-coral-dim/40 data-[state=open]:bg-coral-dim/40 focus-visible:ring-2 focus-visible:ring-coral/50 focus-visible:ring-offset-2";
 
 /**
  * Whether someone is signed in, resolved in the browser.
@@ -136,7 +136,7 @@ function NavMenu({
         {label}
         <Chevron />
       </DropdownMenuTrigger>
-      <DropdownMenuContent align="start" className="min-w-[300px]">
+      <DropdownMenuContent align="start" className="min-w-[320px] shadow-xl border-line/80">
         {children}
       </DropdownMenuContent>
     </DropdownMenu>
@@ -185,10 +185,10 @@ export function SiteNav({
           >
             {nav.destinations.map((d) =>
               d.live ? (
-                <DropdownMenuItem key={d.slug} asChild>
-                  <Link href={`/${d.slug}`}>
+                <DropdownMenuItem key={d.slug} asChild className="group/item">
+                  <Link href={`/${d.slug}`} className="transition-all duration-200">
                     {d.flagEmoji && (
-                      <span aria-hidden="true" className="text-lg leading-none">
+                      <span aria-hidden="true" className="text-lg leading-none transition-transform duration-200 group-hover/item:scale-110">
                         {d.flagEmoji}
                       </span>
                     )}
@@ -198,15 +198,15 @@ export function SiteNav({
                         <span className="block text-[12px] text-ink-soft">{d.detail}</span>
                       )}
                     </span>
-                    <span className="mt-0.5 rounded-pill bg-brandgreen-dim px-2 py-0.5 font-mono text-micro uppercase tracking-wider text-ink">
-                      Live
+                    <span className="mt-0.5 rounded-pill bg-brandgreen-dim px-2 py-0.5 font-mono text-micro uppercase tracking-wider text-brandgreen transition-all duration-200 font-semibold">
+                      ✓ Live
                     </span>
                   </Link>
                 </DropdownMenuItem>
               ) : (
-                <DropdownMenuItem key={d.slug} disabled>
+                <DropdownMenuItem key={d.slug} disabled className="opacity-60 cursor-not-allowed">
                   {d.flagEmoji && (
-                    <span aria-hidden="true" className="text-lg leading-none opacity-60">
+                    <span aria-hidden="true" className="text-lg leading-none opacity-50">
                       {d.flagEmoji}
                     </span>
                   )}
@@ -217,7 +217,7 @@ export function SiteNav({
                     )}
                   </span>
                   <span className="mt-0.5 rounded-pill bg-paper-dim px-2 py-0.5 font-mono text-micro uppercase tracking-wider text-ink-soft">
-                    Soon
+                    Coming soon
                   </span>
                 </DropdownMenuItem>
               ),
@@ -240,17 +240,17 @@ export function SiteNav({
                       {liveHubs.map((hub) => {
                         const Icon = hub.icon ? ICON_MAP[hub.icon] : BookOpen;
                         return (
-                          <DropdownMenuItem key={hub.slug} asChild>
-                            <Link href={hub.href}>
+                          <DropdownMenuItem key={hub.slug} asChild className="group/course">
+                            <Link href={hub.href} className="transition-all duration-200">
                               <Icon
                                 size={17}
                                 aria-hidden="true"
-                                className="mt-0.5 shrink-0 text-coral-text"
+                                className="mt-0.5 shrink-0 text-coral-text transition-transform duration-200 group-hover/course:scale-110"
                               />
                               <span className="flex-1">
-                                <span className="block font-medium text-ink">{hub.name}</span>
+                                <span className="block font-medium text-ink group-hover/course:text-coral-text transition-colors duration-200">{hub.name}</span>
                                 {hub.oneLiner && (
-                                  <span className="block text-[12px] text-ink-soft line-clamp-2">
+                                  <span className="block text-[12px] text-ink-soft line-clamp-2 group-hover/course:text-ink-soft/80 transition-colors duration-200">
                                     {hub.oneLiner}
                                   </span>
                                 )}
@@ -258,8 +258,8 @@ export function SiteNav({
                                   <span className="block text-[12px] text-ink-soft">{hub.tuition}</span>
                                 )}
                               </span>
-                              <span className="mt-0.5 rounded-pill bg-brandgreen-dim px-2 py-0.5 font-mono text-micro uppercase tracking-wider text-ink shrink-0">
-                                Live
+                              <span className="mt-0.5 rounded-pill bg-brandgreen-dim px-2 py-0.5 font-mono text-micro uppercase tracking-wider text-brandgreen shrink-0 font-semibold transition-all duration-200">
+                                ✓ Live
                               </span>
                             </Link>
                           </DropdownMenuItem>
@@ -273,11 +273,11 @@ export function SiteNav({
                   {comingSoonHubs.map((hub) => {
                     const Icon = hub.icon ? ICON_MAP[hub.icon] : BookOpen;
                     return (
-                      <DropdownMenuItem key={hub.slug} disabled>
+                      <DropdownMenuItem key={hub.slug} disabled className="opacity-65 cursor-not-allowed">
                         <Icon
                           size={17}
                           aria-hidden="true"
-                          className="mt-0.5 shrink-0 text-ink-soft/40"
+                          className="mt-0.5 shrink-0 text-ink-soft/50"
                         />
                         <span className="flex-1">
                           <span className="block font-medium text-ink-soft">{hub.name}</span>
@@ -288,7 +288,7 @@ export function SiteNav({
                           )}
                         </span>
                         <span className="mt-0.5 rounded-pill bg-paper-dim px-2 py-0.5 font-mono text-micro uppercase tracking-wider text-ink-soft shrink-0">
-                          Soon
+                          Coming soon
                         </span>
                       </DropdownMenuItem>
                     );
@@ -302,16 +302,16 @@ export function SiteNav({
             {TOOLS.map((tool) => {
               const Icon = TOOL_ICONS[tool.icon] ?? BookOpen;
               return (
-                <DropdownMenuItem key={tool.href} asChild>
-                  <Link href={tool.href}>
+                <DropdownMenuItem key={tool.href} asChild className="group/tool">
+                  <Link href={tool.href} className="transition-all duration-200">
                     <Icon
                       size={17}
                       aria-hidden="true"
-                      className="mt-0.5 shrink-0 text-coral-text"
+                      className="mt-0.5 shrink-0 text-coral-text transition-transform duration-200 group-hover/tool:scale-110"
                     />
                     <span className="flex-1">
-                      <span className="block font-medium text-ink">{tool.label}</span>
-                      <span className="block text-[12px] text-ink-soft">
+                      <span className="block font-medium text-ink group-hover/tool:text-coral-text transition-colors duration-200">{tool.label}</span>
+                      <span className="block text-[12px] text-ink-soft group-hover/tool:text-ink-soft/80 transition-colors duration-200">
                         {tool.description}
                       </span>
                     </span>
@@ -404,27 +404,27 @@ export function SiteNav({
                     key={d.slug}
                     href={`/${d.slug}`}
                     onClick={() => setOpen(false)}
-                    className="flex items-center gap-2.5 py-3 text-ui text-ink"
+                    className="flex items-center gap-2.5 py-3 text-ui text-ink hover:text-coral-text transition-colors duration-200"
                   >
-                    {d.flagEmoji && <span aria-hidden="true">{d.flagEmoji}</span>}
+                    {d.flagEmoji && <span aria-hidden="true" className="text-xl transition-transform duration-200">{d.flagEmoji}</span>}
                     {d.name}
-                    <span className="ml-auto font-mono text-micro uppercase tracking-wider text-ink-soft">
-                      Live
+                    <span className="ml-auto font-mono text-micro uppercase tracking-wider font-semibold text-brandgreen">
+                      ✓ Live
                     </span>
                   </Link>
                 ) : (
                   <span
                     key={d.slug}
-                    className="flex items-center gap-2.5 py-3 text-ui text-ink-soft"
+                    className="flex items-center gap-2.5 py-3 text-ui text-ink-soft opacity-60 cursor-not-allowed"
                   >
                     {d.flagEmoji && (
-                      <span aria-hidden="true" className="opacity-60">
+                      <span aria-hidden="true" className="opacity-50">
                         {d.flagEmoji}
                       </span>
                     )}
                     {d.name}
                     <span className="ml-auto font-mono text-micro uppercase tracking-wider">
-                      Soon
+                      Coming soon
                     </span>
                   </span>
                 ),
@@ -449,16 +449,16 @@ export function SiteNav({
                         {liveHubs.map((hub) => {
                           const Icon = hub.icon ? ICON_MAP[hub.icon] : BookOpen;
                           return (
-                            <div key={hub.slug} className="flex items-start gap-2.5 py-3">
+                            <div key={hub.slug} className="flex items-start gap-2.5 py-3 group/mobileHub hover:bg-paper-dim/50 rounded-lg px-2 -mx-2 transition-colors duration-200">
                               <Icon
                                 size={17}
                                 aria-hidden="true"
-                                className="mt-0.5 shrink-0 text-coral-text"
+                                className="mt-0.5 shrink-0 text-coral-text transition-transform duration-200 group-hover/mobileHub:scale-110"
                               />
                               <Link
                                 href={hub.href}
                                 onClick={() => setOpen(false)}
-                                className="flex-1 text-ui text-ink"
+                                className="flex-1 text-ui text-ink hover:text-coral-text transition-colors duration-200"
                               >
                                 <span className="font-medium">{hub.name}</span>
                                 {hub.oneLiner && (
@@ -467,8 +467,8 @@ export function SiteNav({
                                   </span>
                                 )}
                               </Link>
-                              <span className="ml-auto font-mono text-micro uppercase tracking-wider text-ink-soft shrink-0 whitespace-nowrap">
-                                Live
+                              <span className="ml-auto font-mono text-micro uppercase tracking-wider text-brandgreen shrink-0 whitespace-nowrap font-semibold">
+                                ✓ Live
                               </span>
                             </div>
                           );
@@ -481,11 +481,11 @@ export function SiteNav({
                     {comingSoonHubs.map((hub) => {
                       const Icon = hub.icon ? ICON_MAP[hub.icon] : BookOpen;
                       return (
-                        <div key={hub.slug} className="flex items-start gap-2.5 py-3 opacity-60">
+                        <div key={hub.slug} className="flex items-start gap-2.5 py-3 opacity-65 cursor-not-allowed px-2 -mx-2">
                           <Icon
                             size={17}
                             aria-hidden="true"
-                            className="mt-0.5 shrink-0 text-ink-soft/40"
+                            className="mt-0.5 shrink-0 text-ink-soft/50"
                           />
                           <div className="flex-1">
                             <span className="text-ui text-ink-soft">{hub.name}</span>
@@ -496,7 +496,7 @@ export function SiteNav({
                             )}
                           </div>
                           <span className="font-mono text-micro uppercase tracking-wider text-ink-soft shrink-0 whitespace-nowrap">
-                            Soon
+                            Coming soon
                           </span>
                         </div>
                       );

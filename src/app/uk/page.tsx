@@ -11,35 +11,35 @@ import { courseHubs } from "@/data/courses";
 
 export const revalidate = 3600;
 
-// UK Cities data
+// UK Cities data with high-quality images
 const UK_CITIES = [
   {
     name: "London",
     description: "Vibrant capital with endless opportunities and cultural diversity",
     universities: 22,
     imageUrl:
-      "https://images.unsplash.com/photo-1513635269975-59663e0ac1ad?w=600&h=400&fit=crop",
+      "https://images.unsplash.com/photo-1513635269975-59663e0ac1ad?w=800&h=600&fit=crop&q=80",
   },
   {
     name: "Manchester",
     description: "Creative hub known for innovation and world-class research",
     universities: 5,
     imageUrl:
-      "https://images.unsplash.com/photo-1603695785203-d87d5b14b47a?w=600&h=400&fit=crop",
+      "https://images.unsplash.com/photo-1603695785203-d87d5b14b47a?w=800&h=600&fit=crop&q=80",
   },
   {
     name: "Edinburgh",
     description: "Historic city blending heritage with cutting-edge research",
     universities: 4,
     imageUrl:
-      "https://images.unsplash.com/photo-1535050487db-2b1f38f37aa3?w=600&h=400&fit=crop",
+      "https://images.unsplash.com/photo-1535050487db-2b1f38f37aa3?w=800&h=600&fit=crop&q=80",
   },
   {
     name: "Birmingham",
     description: "Second city with strong engineering and business schools",
     universities: 3,
     imageUrl:
-      "https://images.unsplash.com/photo-1533900298318-6b8da08a523e?w=600&h=400&fit=crop",
+      "https://images.unsplash.com/photo-1533900298318-6b8da08a523e?w=800&h=600&fit=crop&q=80",
   },
 ];
 
