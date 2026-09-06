@@ -43,6 +43,7 @@ export function TestimonialCard({
             src={imageUrl}
             alt={studentName}
             fill
+            sizes="56px"
             className="object-cover"
             priority={false}
           />

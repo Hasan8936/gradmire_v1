@@ -18,7 +18,15 @@ import { cn } from "@/lib/utils";
 const ctaVariants = cva(
   // whitespace-nowrap: a wrapped label turns the pill into a tall rounded box.
   // The header CTA did exactly that at 360px, overlapping the logo.
-  "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-pill font-semibold transition-colors disabled:opacity-70",
+  //
+  // active:scale-[0.97] fires on pointer-down (CSS :active), not on click:
+  // press feedback that waits for release reads as laggy (Apple's
+  // "Designing Fluid Interfaces" — respond on touch-down, and make it
+  // continuous rather than only on completion). `transition-[color,
+  // background-color,border-color,transform]` rather than `transition-all`
+  // so only the properties this component actually changes are on the
+  // compositor's watch list.
+  "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-pill font-semibold transition-[color,background-color,border-color,transform] active:scale-[0.97] disabled:opacity-70 disabled:active:scale-100",
   {
     variants: {
       variant: {

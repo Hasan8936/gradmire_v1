@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import { SiteHeader } from "@/components/brand/site-header";
@@ -14,6 +15,18 @@ import { UniversityCard } from "@/components/ui/university-card";
 import { CityCard } from "@/components/ui/city-card";
 import { TestimonialCard } from "@/components/ui/testimonial-card";
 import { PathTimeline } from "@/components/ui/path-timeline";
+import { HeroStatRail, type HeroStat } from "@/components/ui/hero-stat-rail";
+
+// Same three facts as `WHY_UK` below, compressed to a chip-length label.
+// Kept as a distinct list rather than mapped from `WHY_UK` at render time so
+// the two can be edited independently — the hero chip needs a short label,
+// the grid tile below it a fuller sentence, and coupling them would make an
+// edit to one silently reword the other.
+const HERO_STATS: HeroStat[] = [
+  { icon: "graduation", value: "1 year", label: "Shorter Master's degrees" },
+  { icon: "plane", value: "2 years", label: "Graduate Route work visa" },
+  { icon: "trophy", value: "4 of 10", label: "World's top ten universities" },
+];
 
 // Next requires route segment config to be a literal it can statically
 // extract, so this cannot reference CONTENT_REVALIDATE_SECONDS directly.
@@ -173,39 +186,71 @@ export default async function HomePage() {
       <SiteHeader />
 
       <main id="main">
-        {/* ---------- Hero ---------- */}
-        <section className="gutter pb-10 pt-16">
+        {/* ---------- Hero ----------
+            Text column is plain server-rendered markup with no entrance
+            animation — the headline is this page's LCP candidate, and
+            Chrome does not count an element painted at opacity 0 as an LCP
+            candidate (see the note in `Reveal`). Only the photo and its
+            floating stat chips, which are decorative, get motion, and that
+            motion lives in the client-only `HeroStatRail`. The photo column
+            is `lg:`-only: a background photograph earns its place once
+            there is room for it beside the copy, not as extra weight on a
+            360px download. */}
+        <section className="gutter overflow-hidden pb-10 pt-16">
           <Container>
-            <div className="max-w-[640px]">
-              <span className="eyebrow">Study abroad, reordered</span>
-              <h1 className="my-[18px] max-w-[15ch] text-[clamp(34px,4.6vw,58px)] font-semibold leading-[1.05]">
-                Find your course. Then find{" "}
-                <em className="font-medium italic text-coral">the UK</em> around it.
-              </h1>
-              <p className="mb-[30px] max-w-[46ch] text-[17.5px] text-ink-soft">
-                Most platforms start with &ldquo;pick a country.&rdquo; We start with what
-                actually shapes your career — your subject. Get matched to programmes
-                first, then the universities and cities built around them.
-              </p>
-              <div className="mb-[34px] flex flex-wrap gap-3.5">
-                <Cta
-                  href="#courses"
-                  variant="coral"
-                  className="shadow-[0_10px_22px_-10px_rgba(228,57,14,0.55)]"
-                >
-                  Find my course
-                  <ArrowRight size={15} aria-hidden="true" />
-                </Cta>
-                <Cta href="/tools/course-finder" variant="outline">
-                  Take the quiz
-                </Cta>
-              </div>
-              {hubs.length > 0 && (
-                <p className="text-body text-ink-soft">
-                  {liveHubCount} UK subject hubs live · {hubs.length - liveHubCount} in
-                  research
+            <div className="grid items-center gap-10 lg:grid-cols-[1fr_minmax(0,440px)]">
+              <div className="max-w-[640px]">
+                <span className="eyebrow">Study abroad, reordered</span>
+                <h1 className="my-[18px] max-w-[15ch] text-[clamp(34px,4.6vw,58px)] font-semibold leading-[1.05]">
+                  Find your course. Then find{" "}
+                  <em className="font-medium italic text-coral">the UK</em> around it.
+                </h1>
+                <p className="mb-[30px] max-w-[46ch] text-[17.5px] text-ink-soft">
+                  Most platforms start with &ldquo;pick a country.&rdquo; We start with what
+                  actually shapes your career — your subject. Get matched to programmes
+                  first, then the universities and cities built around them.
                 </p>
-              )}
+                <div className="mb-[34px] flex flex-wrap gap-3.5">
+                  <Cta
+                    href="#courses"
+                    variant="coral"
+                    className="shadow-[0_10px_22px_-10px_rgba(228,57,14,0.55)]"
+                  >
+                    Find my course
+                    <ArrowRight size={15} aria-hidden="true" />
+                  </Cta>
+                  <Cta href="/tools/course-finder" variant="outline">
+                    Take the quiz
+                  </Cta>
+                </div>
+                {hubs.length > 0 && (
+                  <p className="text-body text-ink-soft">
+                    {liveHubCount} UK subject hubs live · {hubs.length - liveHubCount} in
+                    research
+                  </p>
+                )}
+              </div>
+
+              <div className="relative hidden lg:block">
+                <div className="relative aspect-[4/5] w-full overflow-hidden rounded-[28px] shadow-board">
+                  <Image
+                    src="https://images.unsplash.com/photo-1513635269975-59663e0ac1ad?w=1000&h=1250&fit=crop&q=80"
+                    alt="A student walking beside the Thames with Big Ben and the Houses of Parliament behind her"
+                    fill
+                    priority
+                    sizes="440px"
+                    className="object-cover"
+                  />
+                  {/* Anchors the floating chips to something legible: without
+                      it the bottom third of the photo is unpredictable and
+                      the cards read fine over sky but not over stone. */}
+                  <div className="absolute inset-x-0 bottom-0 h-2/3 bg-gradient-to-t from-ink/70 via-ink/10 to-transparent" />
+                </div>
+
+                <div className="absolute inset-x-5 bottom-5">
+                  <HeroStatRail stats={HERO_STATS} />
+                </div>
+              </div>
             </div>
           </Container>
         </section>

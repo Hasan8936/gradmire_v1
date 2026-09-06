@@ -150,9 +150,12 @@ export function SiteNav({
   // blurred backdrop, and a full-width sticky backdrop filter makes the
   // browser re-blur the strip behind it on every scroll frame — the largest
   // single cause of scroll jank here. At 90% opacity it was barely visible.
-  // (Written without the utility name so Tailwind stops emitting the class.)
+  // A later pass re-added `backdrop-blur-md` here (and a blanket `nav,
+  // header { backdrop-filter }` rule in globals.css) without noticing this
+  // comment, quietly undoing the fix. Removed again — see that rule's
+  // removal for the other half.
   return (
-    <header className="sticky top-0 z-50 bg-paper/90 backdrop-blur-md after:absolute after:inset-x-0 after:top-full after:h-3 after:bg-gradient-to-b after:from-ink/[0.06] after:to-transparent after:content-['']">
+    <header className="sticky top-0 z-50 bg-paper/90 after:absolute after:inset-x-0 after:top-full after:h-3 after:bg-gradient-to-b after:from-ink/[0.06] after:to-transparent after:content-['']">
       <Container className="gutter mx-auto flex items-center justify-between gap-3 py-4">
         <Link href="/" className="flex shrink-0 items-center transition-opacity hover:opacity-75" aria-label="Gradmire home">
           <Logo variant="navy" size="md" className="h-10 w-auto" />

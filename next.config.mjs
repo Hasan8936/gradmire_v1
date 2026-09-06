@@ -8,6 +8,15 @@ const nextConfig = {
   typescript: { ignoreBuildErrors: false },
   poweredByHeader: false,
   compress: true,
+  // The university/city/testimonial cards and the hero photo all pass
+  // images.unsplash.com URLs to next/image. Without this, next/image
+  // refuses any hostname it isn't told about — the optimizer 400s the
+  // request and every one of those photos renders as a broken image. This
+  // was missing, so in production every Unsplash photo on the homepage was
+  // silently broken regardless of what the component code rendered.
+  images: {
+    remotePatterns: [{ protocol: "https", hostname: "images.unsplash.com" }],
+  },
   // `postgres` is a Node driver with no business being webpack-bundled into
   // every server function; externalising it cuts cold-start parse time.
   serverExternalPackages: ["postgres"],

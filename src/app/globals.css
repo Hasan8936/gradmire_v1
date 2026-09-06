@@ -289,6 +289,20 @@
     border: 1px solid rgba(41, 141, 198, 0.15);
   }
 
+  /* Someone asking the OS for less transparency still gets the card's
+     depth and grouping — just as a solid surface instead of a blurred one. */
+  @media (prefers-reduced-transparency: reduce) {
+    .glass {
+      background: rgb(255, 255, 255);
+      backdrop-filter: none;
+    }
+
+    .dark .glass {
+      background: rgb(19, 44, 63);
+      backdrop-filter: none;
+    }
+  }
+
   /* Premium card with shadow depth */
   .card-premium {
     @apply rounded-2xl bg-card p-6;
@@ -299,11 +313,6 @@
   .card-premium:hover {
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12), 0 20px 40px -16px rgba(0, 0, 0, 0.2);
     @apply translate-y-[-2px];
-  }
-
-  /* Sticky nav with translucent backdrop */
-  nav, header {
-    backdrop-filter: blur(12px) saturate(175%);
   }
 
   /* Brand gradient (Navy to Sky Blue ramp) */
