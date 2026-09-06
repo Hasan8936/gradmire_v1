@@ -59,7 +59,7 @@ const ICON_MAP: Record<string, LucideIcon> = {
 const TOOL_ICONS = ICON_MAP;
 
 const triggerCls =
-  "group flex items-center gap-1 rounded-pill px-3 py-2 text-[14.5px] font-medium text-ink outline-none transition-all duration-200 hover:text-coral-text data-[state=open]:text-coral-text hover:bg-coral-dim/40 data-[state=open]:bg-coral-dim/40 focus-visible:ring-2 focus-visible:ring-coral/50 focus-visible:ring-offset-2";
+  "group flex items-center gap-1.5 rounded-pill px-3.5 py-2 text-[14.5px] font-semibold text-ink outline-none transition-all duration-200 hover:text-coral-text data-[state=open]:text-coral-text hover:bg-coral-dim/50 data-[state=open]:bg-coral-dim/50 focus-visible:ring-2 focus-visible:ring-coral/50 focus-visible:ring-offset-2";
 
 /**
  * Whether someone is signed in, resolved in the browser.
@@ -136,7 +136,10 @@ function NavMenu({
         {label}
         <Chevron />
       </DropdownMenuTrigger>
-      <DropdownMenuContent align="start" className="min-w-[320px] shadow-xl border-line/80">
+      <DropdownMenuContent
+        align="start"
+        className="min-w-[340px] shadow-xl border border-line/60 bg-white rounded-xl animate-in fade-in slide-in-from-top-2 duration-200"
+      >
         {children}
       </DropdownMenuContent>
     </DropdownMenu>
@@ -186,38 +189,38 @@ export function SiteNav({
             {nav.destinations.map((d) =>
               d.live ? (
                 <DropdownMenuItem key={d.slug} asChild className="group/item">
-                  <Link href={`/${d.slug}`} className="transition-all duration-200">
+                  <Link href={`/${d.slug}`} className="transition-all duration-200 px-4 py-3.5 flex items-start gap-3 rounded-lg hover:bg-coral-dim/30 active:bg-coral-dim/50 cursor-pointer group">
                     {d.flagEmoji && (
-                      <span aria-hidden="true" className="text-lg leading-none transition-transform duration-200 group-hover/item:scale-110">
+                      <span aria-hidden="true" className="text-xl leading-none transition-transform duration-200 group-hover:scale-120 flex-shrink-0 mt-0.5">
                         {d.flagEmoji}
                       </span>
                     )}
-                    <span className="flex-1">
-                      <span className="block font-medium text-ink">{d.name}</span>
+                    <span className="flex-1 min-w-0">
+                      <span className="block font-semibold text-ink text-[14.5px] transition-colors duration-200 group-hover:text-coral">{d.name}</span>
                       {d.detail && (
-                        <span className="block text-[12px] text-ink-soft">{d.detail}</span>
+                        <span className="block text-[12px] text-ink-soft mt-0.5 group-hover:text-ink-soft/80 transition-colors duration-200">{d.detail}</span>
                       )}
                     </span>
-                    <span className="mt-0.5 rounded-pill bg-brandgreen-dim px-2 py-0.5 font-mono text-micro uppercase tracking-wider text-brandgreen transition-all duration-200 font-semibold">
-                      ✓ Live
+                    <span className="rounded-full bg-brandgreen/15 px-2.5 py-1 font-mono text-[10px] uppercase tracking-wider text-brandgreen transition-all duration-200 font-bold flex-shrink-0 whitespace-nowrap">
+                      LIVE
                     </span>
                   </Link>
                 </DropdownMenuItem>
               ) : (
-                <DropdownMenuItem key={d.slug} disabled className="opacity-60 cursor-not-allowed">
+                <DropdownMenuItem key={d.slug} disabled className="opacity-50 cursor-not-allowed px-4 py-3.5 flex items-start gap-3 rounded-lg group">
                   {d.flagEmoji && (
-                    <span aria-hidden="true" className="text-lg leading-none opacity-50">
+                    <span aria-hidden="true" className="text-xl leading-none opacity-60 flex-shrink-0 mt-0.5">
                       {d.flagEmoji}
                     </span>
                   )}
-                  <span className="flex-1">
-                    <span className="block font-medium text-ink-soft">{d.name}</span>
+                  <span className="flex-1 min-w-0">
+                    <span className="block font-semibold text-ink-soft text-[14.5px]">{d.name}</span>
                     {d.detail && (
-                      <span className="block text-[12px] text-ink-soft/70">{d.detail}</span>
+                      <span className="block text-[12px] text-ink-soft/70 mt-0.5">{d.detail}</span>
                     )}
                   </span>
-                  <span className="mt-0.5 rounded-pill bg-paper-dim px-2 py-0.5 font-mono text-micro uppercase tracking-wider text-ink-soft">
-                    Coming soon
+                  <span className="rounded-full bg-paper-dim px-2.5 py-1 font-mono text-[10px] uppercase tracking-wider text-ink-soft/70 flex-shrink-0 whitespace-nowrap">
+                    SOON
                   </span>
                 </DropdownMenuItem>
               ),
@@ -241,54 +244,54 @@ export function SiteNav({
                         const Icon = hub.icon ? ICON_MAP[hub.icon] : BookOpen;
                         return (
                           <DropdownMenuItem key={hub.slug} asChild className="group/course">
-                            <Link href={hub.href} className="transition-all duration-200">
+                            <Link href={hub.href} className="transition-all duration-200 px-4 py-3.5 flex items-start gap-3 rounded-lg hover:bg-coral-dim/30 active:bg-coral-dim/50 cursor-pointer group">
                               <Icon
-                                size={17}
+                                size={18}
                                 aria-hidden="true"
-                                className="mt-0.5 shrink-0 text-coral-text transition-transform duration-200 group-hover/course:scale-110"
+                                className="mt-0.5 shrink-0 text-coral-text transition-all duration-200 group-hover:scale-110"
                               />
-                              <span className="flex-1">
-                                <span className="block font-medium text-ink group-hover/course:text-coral-text transition-colors duration-200">{hub.name}</span>
+                              <span className="flex-1 min-w-0">
+                                <span className="block font-semibold text-ink text-[14.5px] group-hover:text-coral transition-colors duration-200">{hub.name}</span>
                                 {hub.oneLiner && (
-                                  <span className="block text-[12px] text-ink-soft line-clamp-2 group-hover/course:text-ink-soft/80 transition-colors duration-200">
+                                  <span className="block text-[12px] text-ink-soft line-clamp-2 mt-0.5 group-hover:text-ink-soft/80 transition-colors duration-200">
                                     {hub.oneLiner}
                                   </span>
                                 )}
                                 {!hub.oneLiner && hub.tuition && (
-                                  <span className="block text-[12px] text-ink-soft">{hub.tuition}</span>
+                                  <span className="block text-[12px] text-ink-soft mt-0.5">{hub.tuition}</span>
                                 )}
                               </span>
-                              <span className="mt-0.5 rounded-pill bg-brandgreen-dim px-2 py-0.5 font-mono text-micro uppercase tracking-wider text-brandgreen shrink-0 font-semibold transition-all duration-200">
-                                ✓ Live
+                              <span className="rounded-full bg-brandgreen/15 px-2.5 py-1 font-mono text-[10px] uppercase tracking-wider text-brandgreen shrink-0 font-bold whitespace-nowrap transition-all duration-200">
+                                LIVE
                               </span>
                             </Link>
                           </DropdownMenuItem>
                         );
                       })}
                       {comingSoonHubs.length > 0 && (
-                        <div className="border-t border-line/60 my-2" aria-hidden="true" />
+                        <div className="border-t border-line/40 my-2.5" aria-hidden="true" />
                       )}
                     </>
                   )}
                   {comingSoonHubs.map((hub) => {
                     const Icon = hub.icon ? ICON_MAP[hub.icon] : BookOpen;
                     return (
-                      <DropdownMenuItem key={hub.slug} disabled className="opacity-65 cursor-not-allowed">
+                      <DropdownMenuItem key={hub.slug} disabled className="opacity-50 cursor-not-allowed px-4 py-3.5 flex items-start gap-3 rounded-lg group">
                         <Icon
-                          size={17}
+                          size={18}
                           aria-hidden="true"
                           className="mt-0.5 shrink-0 text-ink-soft/50"
                         />
-                        <span className="flex-1">
-                          <span className="block font-medium text-ink-soft">{hub.name}</span>
+                        <span className="flex-1 min-w-0">
+                          <span className="block font-semibold text-ink-soft text-[14.5px]">{hub.name}</span>
                           {hub.oneLiner && (
-                            <span className="block text-[12px] text-ink-soft/70 line-clamp-2">
+                            <span className="block text-[12px] text-ink-soft/70 line-clamp-2 mt-0.5">
                               {hub.oneLiner}
                             </span>
                           )}
                         </span>
-                        <span className="mt-0.5 rounded-pill bg-paper-dim px-2 py-0.5 font-mono text-micro uppercase tracking-wider text-ink-soft shrink-0">
-                          Coming soon
+                        <span className="rounded-full bg-paper-dim px-2.5 py-1 font-mono text-[10px] uppercase tracking-wider text-ink-soft/70 shrink-0 whitespace-nowrap">
+                          SOON
                         </span>
                       </DropdownMenuItem>
                     );
@@ -303,15 +306,15 @@ export function SiteNav({
               const Icon = TOOL_ICONS[tool.icon] ?? BookOpen;
               return (
                 <DropdownMenuItem key={tool.href} asChild className="group/tool">
-                  <Link href={tool.href} className="transition-all duration-200">
+                  <Link href={tool.href} className="transition-all duration-200 px-4 py-3.5 flex items-start gap-3 rounded-lg hover:bg-coral-dim/30 active:bg-coral-dim/50 cursor-pointer group">
                     <Icon
-                      size={17}
+                      size={18}
                       aria-hidden="true"
-                      className="mt-0.5 shrink-0 text-coral-text transition-transform duration-200 group-hover/tool:scale-110"
+                      className="mt-0.5 shrink-0 text-coral-text transition-all duration-200 group-hover:scale-110"
                     />
-                    <span className="flex-1">
-                      <span className="block font-medium text-ink group-hover/tool:text-coral-text transition-colors duration-200">{tool.label}</span>
-                      <span className="block text-[12px] text-ink-soft group-hover/tool:text-ink-soft/80 transition-colors duration-200">
+                    <span className="flex-1 min-w-0">
+                      <span className="block font-semibold text-ink text-[14.5px] group-hover:text-coral transition-colors duration-200">{tool.label}</span>
+                      <span className="block text-[12px] text-ink-soft mt-0.5 group-hover:text-ink-soft/80 transition-colors duration-200">
                         {tool.description}
                       </span>
                     </span>

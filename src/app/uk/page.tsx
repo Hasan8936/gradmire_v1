@@ -18,28 +18,28 @@ const UK_CITIES = [
     description: "Vibrant capital with endless opportunities and cultural diversity",
     universities: 22,
     imageUrl:
-      "https://images.unsplash.com/photo-1513635269975-59663e0ac1ad?w=800&h=600&fit=crop&q=80",
+      "https://images.unsplash.com/photo-1513635269975-59663e0ac1ad?w=800&h=600&fit=crop&q=85",
   },
   {
     name: "Manchester",
-    description: "Creative hub known for innovation and world-class research",
+    description: "Creative hub with historic architecture and innovative spirit",
     universities: 5,
     imageUrl:
-      "https://images.unsplash.com/photo-1603695785203-d87d5b14b47a?w=800&h=600&fit=crop&q=80",
+      "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800&h=600&fit=crop&q=85",
   },
   {
     name: "Edinburgh",
-    description: "Historic city blending heritage with cutting-edge research",
+    description: "Historic city blending medieval charm with modern excellence",
     universities: 4,
     imageUrl:
-      "https://images.unsplash.com/photo-1535050487db-2b1f38f37aa3?w=800&h=600&fit=crop&q=80",
+      "https://images.unsplash.com/photo-1565008576549-bdcd6d60b69e?w=800&h=600&fit=crop&q=85",
   },
   {
     name: "Birmingham",
     description: "Second city with strong engineering and business schools",
     universities: 3,
     imageUrl:
-      "https://images.unsplash.com/photo-1533900298318-6b8da08a523e?w=800&h=600&fit=crop&q=80",
+      "https://images.unsplash.com/photo-1533900298318-6b8da08a523e?w=800&h=600&fit=crop&q=85",
   },
 ];
 
