@@ -68,7 +68,7 @@ const TOP_UNIVERSITIES = [
     tuitionFees: "£25-30k",
     employability: 96,
     imageUrl:
-      "https://images.unsplash.com/photo-1605818735494-2abc6d5e2f8b?w=500&h=500&fit=crop",
+      "https://images.unsplash.com/photo-1519452575417-564c1401ecc0?w=500&h=500&fit=crop",
   },
   {
     name: "University of Cambridge",
