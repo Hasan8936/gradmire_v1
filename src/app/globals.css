@@ -315,7 +315,7 @@
   /* ---- Spring Animation Setup (for Motion/Framer Motion) ---- */
   /* Entrance animation states */
   [data-animate-spring] {
-    @apply will-change-transform will-change-opacity;
+    @apply will-change-transform;
   }
 
   /* Smooth scroll behavior */
