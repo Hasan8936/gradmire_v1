@@ -59,7 +59,7 @@ const ICON_MAP: Record<string, LucideIcon> = {
 const TOOL_ICONS = ICON_MAP;
 
 const triggerCls =
-  "group flex items-center gap-1 rounded-pill px-3 py-2 text-[14.5px] font-medium text-ink outline-none transition-colors hover:text-coral-text data-[state=open]:text-coral-text";
+  "group flex items-center gap-1 rounded-pill px-3 py-2 text-[14.5px] font-medium text-ink outline-none transition-all duration-200 hover:text-coral-text data-[state=open]:text-coral-text hover:bg-coral-dim/40 data-[state=open]:bg-coral-dim/40";
 
 /**
  * Whether someone is signed in, resolved in the browser.

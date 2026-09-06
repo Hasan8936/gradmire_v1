@@ -287,17 +287,74 @@ export const courseHubs: CourseHub[] = [
     extraNote: undefined,
   },
 
-  // ══════════════════════════════════════════
-  // UK — STUB HUBS
-  // ══════════════════════════════════════════
   {
     countrySlug: "uk",
     slug: "medicine-nursing-health",
     name: "Medicine, Nursing & Health Sciences",
     icon: "Heart",
-    isStub: true,
+    isStub: false,
     oneLiner:
       "World-renowned medical schools, NHS clinical placements, and globally recognized qualifications.",
+    overview:
+      "UK healthcare degrees range from postgraduate clinical qualifications (MSc Nursing, MSc Radiography) to research-focused MPhil programmes. Most taught courses run 12-24 months. Strong emphasis on NHS partnerships, clinical placements, and research opportunities. Popular specializations: MSc Nursing, MSc Public Health, MSc Clinical Psychology, MSc Healthcare Management, MSc Radiotherapy & Oncology.",
+    universities: [
+      {
+        name: "University of Cambridge",
+        notableFor: "Medicine, Public Health",
+        subjectRank: "Top 5",
+      },
+      {
+        name: "University of Oxford",
+        notableFor: "Medicine, Clinical Research",
+        subjectRank: "Top 5",
+      },
+      {
+        name: "Imperial College London",
+        notableFor: "Medicine, Biomedical Sciences",
+        subjectRank: "Top 8",
+      },
+      {
+        name: "University College London (UCL)",
+        notableFor: "Nursing, Public Health, Healthcare Management",
+        subjectRank: "Top 10",
+      },
+      {
+        name: "University of Edinburgh",
+        notableFor: "Medicine, Nursing, Medical Research",
+        subjectRank: "Top 10",
+      },
+      {
+        name: "University of Manchester",
+        notableFor: "Nursing, Public Health, Clinical Research",
+        subjectRank: "Top 15",
+      },
+    ],
+    tuitionMin: 20000,
+    tuitionMax: 50000,
+    tuitionRange: "£20,000–£50,000/year",
+    livingCostMin: 1100,
+    livingCostMax: 1500,
+    livingCosts: "£1,100–£1,500/month",
+    currency: "GBP",
+    entryRequirements: [
+      "2:1 UK equivalent (60%+ from Indian universities, varies by institution)",
+      "IELTS 7.0–7.5",
+      "For clinical programmes: healthcare experience or background strongly preferred",
+      "For nursing MSc: often require RN/nursing registration from home country",
+      "GMAT/GRE not typically required for health sciences",
+    ],
+    applicationDeadlines: [
+      {
+        label: "Most programmes",
+        detail: "January–April for September intake",
+      },
+      {
+        label: "Competitive clinical MSc",
+        detail: "November–December for September intake",
+      },
+    ],
+    deadlineWarning:
+      "Cambridge/Oxford medicine and clinical MSc programs may close by December.",
     salaryMin: 30000,
     salaryMax: 52000,
     medianSalaryRange: "£30,000–£52,000",
@@ -305,8 +362,20 @@ export const courseHubs: CourseHub[] = [
     salaryProgressionThreeYear: "£38,000–£72,000",
     salaryProgressionFiveYear: "£45,000–£90,000",
     topSectors: ["NHS", "Private Healthcare", "Public Health", "Medical Research"],
-    commonEmployers: ["NHS Trusts", "Roche", "AstraZeneca", "GSK"],
+    commonEmployers: ["NHS Trusts", "Roche", "AstraZeneca", "GSK", "Barts Health NHS"],
+    visaNotes: [
+      "Graduate Route visa: 2-3 years post-study work (extended for healthcare professionals)",
+      "ATAS may be required for some clinical/medical research courses",
+      "NHS registration/license process for clinical roles may extend timeline 6-12 months",
+    ],
+    atasRequired: true,
+    extraNote:
+      "UK registration bodies (NMC for nurses, GMC for doctors) require additional qualifications beyond degree.",
   },
+
+  // ══════════════════════════════════════════
+  // UK — STUB HUBS
+  // ══════════════════════════════════════════
   {
     countrySlug: "uk",
     slug: "law",
